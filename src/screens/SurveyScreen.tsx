@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { getSurveyAnswersKeys } from '../utils';
-import { OrientationSurveyProps } from '../types';
+import { SurveyScreenProps } from '../types';
 import { Progress } from '@/components/ui/progress';
-import { useToast } from './ui/use-toast';
+import { useToast } from '../components/ui/use-toast';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { OrientationSurveyContext } from '@/context/OrientationSurveyContext';
 
-const OrientationSurvey: React.FC<OrientationSurveyProps> = ({
+export const SurveyScreen: React.FC<SurveyScreenProps> = ({
   questionsAndAnswers,
-  surveyAnswers,
-  generateRecommendations,
-  setSurveyAnswers,
 }) => {
+  const { surveyAnswers, setSurveyAnswers, generateRecommendations } =
+    useContext(OrientationSurveyContext);
+
   const { toast } = useToast();
 
   const [selected, setSelected] = useState<number>(0);
@@ -110,4 +111,3 @@ const OrientationSurvey: React.FC<OrientationSurveyProps> = ({
     </>
   );
 };
-export default OrientationSurvey;

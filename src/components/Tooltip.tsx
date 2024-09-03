@@ -1,6 +1,6 @@
-import React, { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 
-const Tooltip: React.FC<{ text: string; children: ReactNode }> = ({
+const Tooltip: React.FC<{ text: string; children: React.ReactElement }> = ({
   text,
   children,
 }) => {

@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 
 import { getQuestions, getStudyFields, getJsonRegex } from '@/utils';
 
-import { Progress } from './ui/progress';
-import { Recommendation, Recommendations, SurveyAnswers } from '@/types';
-import { useToast } from './ui/use-toast';
+import { Progress } from '../components/ui/progress';
+import { Recommendation, SurveyAnswers } from '@/types';
+import { useToast } from '../components/ui/use-toast';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import Tooltip from './Tooltip';
+import Tooltip from '../components/Tooltip';
 
 const studyFieldToImage = new Map<string, string>([
   ['Language and Communication', '../../images/language-and-communication.png'],
@@ -23,14 +23,12 @@ const studyFieldToImage = new Map<string, string>([
   ['Arts and Culture', '../../images/arts-and-culture.png'],
 ]);
 
-const StudyField: React.FC<{
+export const StudyFieldScreen: React.FC<{
   surveyAnswers: SurveyAnswers;
   recommendations: Recommendation[];
   disabled: boolean;
   setSurveyAnswers: React.Dispatch<React.SetStateAction<SurveyAnswers>>;
-  setRecommendations: React.Dispatch<
-    React.SetStateAction<Recommendations | null>
-  >;
+  setRecommendations: React.Dispatch<React.SetStateAction<Recommendation[]>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({
@@ -68,7 +66,7 @@ const StudyField: React.FC<{
       adversityHandling: '',
       workLifeBalance: '',
     });
-    setRecommendations(null);
+    setRecommendations([]);
   };
 
   const handleRandomize = () => {
@@ -83,9 +81,7 @@ const StudyField: React.FC<{
   const generateRandomRecommendations = async (
     recommendations: Recommendation[],
     surveyAnswers: SurveyAnswers,
-    setRecommendations: React.Dispatch<
-      React.SetStateAction<Recommendations | null>
-    >
+    setRecommendations: React.Dispatch<React.SetStateAction<Recommendation[]>>
   ) => {
     setLoading(true);
 
@@ -255,4 +251,3 @@ const StudyField: React.FC<{
     </>
   );
 };
-export default StudyField;

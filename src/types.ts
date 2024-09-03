@@ -1,12 +1,4 @@
-export interface Recommendation {
-  study_field: string;
-  reason: string;
-}
-
-export interface Recommendations {
-  recommendations: Recommendation[];
-}
-
+// @TODO Convert this to a mapping!
 export interface SurveyAnswers {
   careerInterests: string;
   workEnvironment: string;
@@ -20,9 +12,25 @@ export interface SurveyAnswers {
   workLifeBalance: string;
 }
 
-export interface OrientationSurveyProps {
-  questionsAndAnswers: string[][];
-  generateRecommendations: (surveyAnswers: SurveyAnswers) => void;
+export interface Recommendation {
+  study_field: string;
+  reason: string;
+}
+
+export interface IOrientationSurveyContext {
+  orientationSurveyIndex: number;
+  loading: boolean;
+  disabled: boolean;
   surveyAnswers: SurveyAnswers;
+  recommendations: Recommendation[];
+  setOrientationSurveyIndex: React.Dispatch<React.SetStateAction<number>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   setSurveyAnswers: React.Dispatch<React.SetStateAction<SurveyAnswers>>;
+  setRecommendations: React.Dispatch<React.SetStateAction<Recommendation[]>>;
+  generateRecommendations: (surveyAnswers: SurveyAnswers) => void;
+}
+
+export interface SurveyScreenProps {
+  questionsAndAnswers: string[][];
 }
