@@ -13,6 +13,9 @@ export const OrientationSurveyContext =
     orientationSurveyIndex: 0,
     loading: false,
     disabled: false,
+    selected: 0,
+    progress: 0,
+    questionIndex: 0,
     surveyAnswers: {
       careerInterests: '',
       workEnvironment: '',
@@ -29,6 +32,9 @@ export const OrientationSurveyContext =
     setOrientationSurveyIndex: () => {},
     setLoading: () => {},
     setDisabled: () => {},
+    setSelected: () => {},
+    setProgress: () => {},
+    setQuestionIndex: () => {},
     setSurveyAnswers: () => {},
     setRecommendations: () => {},
     generateRecommendations: () => {},
@@ -40,6 +46,11 @@ export const OrientationSurveyProvider: React.FC<{
   const [orientationSurveyIndex, setOrientationSurveyIndex] =
     useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [selected, setSelected] = useState<number>(0);
+  const [progress, setProgress] = useState<number>(0);
+
+  const [questionIndex, setQuestionIndex] = useState<number>(0);
 
   // This is part from the `StudyFieldScreen`!
   const [disabled, setDisabled] = useState(false);
@@ -148,11 +159,17 @@ export const OrientationSurveyProvider: React.FC<{
         orientationSurveyIndex,
         loading,
         disabled,
+        selected,
+        progress,
+        questionIndex,
         surveyAnswers,
         recommendations,
         setOrientationSurveyIndex,
         setLoading,
         setDisabled,
+        setSelected,
+        setProgress,
+        setQuestionIndex,
         setSurveyAnswers,
         setRecommendations,
         generateRecommendations,

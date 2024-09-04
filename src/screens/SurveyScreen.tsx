@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { getSurveyAnswersKeys } from '../utils';
 import { SurveyScreenProps } from '../types';
 import { Progress } from '@/components/ui/progress';
@@ -11,14 +11,24 @@ import { OrientationSurveyContext } from '@/context/OrientationSurveyContext';
 export const SurveyScreen: React.FC<SurveyScreenProps> = ({
   questionsAndAnswers,
 }) => {
-  const { surveyAnswers, setSurveyAnswers, generateRecommendations } =
+  const {
+    surveyAnswers,
+    setSurveyAnswers,
+    generateRecommendations,
+    selected,
+    setSelected,
+    progress,
+    setProgress,
+    questionIndex,
+    setQuestionIndex
+  } =
     useContext(OrientationSurveyContext);
 
   const { toast } = useToast();
 
-  const [selected, setSelected] = useState<number>(0);
-  const [questionIndex, setQuesitonIndex] = useState<number>(0);
-  const [progress, setProgress] = useState<number>(0);
+  // const [selected, setSelected] = useState<number>(0);
+  // const [questionIndex, setQuestionIndex] = useState<number>(0);
+  // const [progress, setProgress] = useState<number>(0);
 
   const handleNext = () => {
     if (selected === 0) {
@@ -35,7 +45,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
       }));
       setProgress((prev) => prev + 10);
       setSelected(0);
-      setQuesitonIndex(questionIndex + 1);
+      setQuestionIndex(questionIndex + 1);
     } else {
       generateRecommendations(surveyAnswers);
     }
