@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
 import { getQuestions, getStudyFields, getJsonRegex } from '@/utils';
 
@@ -9,6 +9,7 @@ import { useToast } from '../components/ui/use-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../components/Tooltip';
+import { OrientationSurveyContext } from "@/context/OrientationSurveyContext.tsx";
 
 const studyFieldToImage = new Map<string, string>([
   ['Language and Communication', '../../images/language-and-communication.png'],
@@ -40,11 +41,17 @@ export const StudyFieldScreen: React.FC<{
   setLoading,
   setDisabled,
 }) => {
+  const {
+    selected,
+    setSelected,
+    progress,
+  } = useContext(OrientationSurveyContext);
+
   const { toast } = useToast();
 
-  const [selected, setSelected] = useState<number>(-1);
-  //@ts-ignore
-  const [progress, setProgress] = useState<number>(0);
+  // const [selected, setSelected] = useState<number>(-1);
+  // //@ts-ignore
+  // const [progress, setProgress] = useState<number>(0);
 
   const handleNext = () => {
     toast({
