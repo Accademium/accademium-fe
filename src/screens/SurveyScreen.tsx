@@ -47,6 +47,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
       setSelected(0);
       setQuestionIndex(questionIndex + 1);
     } else {
+      setSelected(-1);
       generateRecommendations(surveyAnswers);
     }
   };
