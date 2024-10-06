@@ -91,7 +91,7 @@ const OrientationSurveyPage: React.FC = () => {
           <Separator className='w-[95%]' />
         </header>
 
-        <main className='w-full flex flex-col gap-y-8'>
+        <main className='w-full h-full flex flex-col gap-y-8'>
           {/* Progress Bar + Dashboard Button  */}
           {orientationSurveyIndex != 0 && !loading && (
             <div className='flex lg:flex-row flex-col-reverse justify-center items-center w-full h-[2.5rem]'>
@@ -147,7 +147,7 @@ const OrientationSurveyPage: React.FC = () => {
           )}
 
           {/* Screen Title */}
-          {orientationSurveyIndex !== 0 && (
+          {orientationSurveyIndex !== 0 && !loading && (
             <div className='w-[48rem] h-[7rem] mx-auto flex flex-row justify-center items-center mt-4'>
               <h1 className='font-coolvetica font-bold text-4xl text-center'>
                 {screenTitles.get(orientationSurveyIndex)}
@@ -191,7 +191,7 @@ const OrientationSurveyPage: React.FC = () => {
           )}
         </main>
 
-        <footer className='flex flex-col justify-center items-center w-full h-[4rem] flex-shrink-0'>
+        <footer className='flex flex-col justify-center items-center w-full h-[5rem] flex-shrink-0'>
           <Separator className='w-[95%]' />
         </footer>
       </div>

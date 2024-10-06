@@ -77,7 +77,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
             }`}
             onClick={() => setSelected(1)}
           >
-            <h3 className='text-left font-coolvetica font-normal lg:text-2xl text-lg'>
+            <h3 className='text-left font-coolvetica font-bold lg:text-2xl text-lg'>
               {questionsAndAnswers[questionIndex][1]}
             </h3>
           </button>
@@ -87,7 +87,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
             }`}
             onClick={() => setSelected(2)}
           >
-            <h3 className='text-left font-coolvetica font-normal lg:text-2xl text-lg'>
+            <h3 className='text-left font-coolvetica font-bold lg:text-2xl text-lg'>
               {questionsAndAnswers[questionIndex][2]}
             </h3>
           </button>
@@ -97,7 +97,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
             }`}
             onClick={() => setSelected(3)}
           >
-            <h3 className='text-left font-coolvetica font-normal lg:text-2xl text-lg'>
+            <h3 className='text-left font-coolvetica font-bold lg:text-2xl text-lg'>
               {questionsAndAnswers[questionIndex][3]}
             </h3>
           </button>
@@ -107,7 +107,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
             }`}
             onClick={() => setSelected(4)}
           >
-            <h3 className='text-left font-coolvetica font-normal lg:text-2xl text-lg'>
+            <h3 className='text-left font-coolvetica font-bold lg:text-2xl text-lg'>
               {questionsAndAnswers[questionIndex][4]}
             </h3>
           </button>
@@ -119,7 +119,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
             className='bg-black rounded-2xl w-[22rem] h-[2.5rem] flex flex-row justify-center items-center gap-x-2'
             onClick={handleNext}
           >
-            <h3 className='font-coolvetica font-normal text-md text-white'>
+            <h3 className='font-coolvetica font-bold text-md text-white'>
               Next
             </h3>
             <FontAwesomeIcon
@@ -140,7 +140,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
                 icon={faArrowLeft}
                 className='text-white text-sm ml-1'
               />
-              <h3 className='font-coolvetica font-normal text-md text-white'>
+              <h3 className='font-coolvetica font-bold text-md text-white'>
                 Back
               </h3>
             </button>
@@ -148,7 +148,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
               className='bg-black rounded-2xl w-[10rem] h-[2.5rem] flex flex-row justify-center items-center gap-x-2'
               onClick={() => handleNext()}
             >
-              <h3 className='font-coolvetica font-normal text-md text-white'>
+              <h3 className='font-coolvetica font-bold text-md text-white'>
                 {questionIndex === questionsAndAnswers.length - 1
                   ? 'Finish'
                   : 'Next'}

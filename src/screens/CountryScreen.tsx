@@ -88,7 +88,7 @@ export const CountryScreen: React.FC<{}> = () => {
               return (
                 <button
                   key={index}
-                  className={`border-2 rounded-3xl border-gray w-[18rem] h-[65px] flex flex-row justify-between items-center px-4 hover:border-black relative 
+                  className={`border-2 rounded-3xl border-gray w-[18rem] h-[60px] flex flex-row justify-between items-center px-4 hover:border-black relative 
                   ${selected === index ? 'border-black' : ''} `}
                   onClick={() => setSelected(index)}
                 >
