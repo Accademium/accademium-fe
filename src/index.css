@@ -4,13 +4,19 @@
 
 @font-face {
   font-family: 'Coolvetica';
-  src: url('../../fonts/CoolveticaRg-Regular.ttf');
+  src: url('../../fonts/CoolveticaLt-Regular.ttf');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Coolvetica';
+  src: url('../../fonts/CoolveticaBk-Regular.ttf');
   font-weight: 400;
 }
 
 @font-face {
   font-family: 'Coolvetica';
-  src: url('../../fonts/CoolveticaRg-Bold.ttf');
+  src: url('../../fonts/CoolveticaRg-Regular.ttf');
   font-weight: 700;
 }
 

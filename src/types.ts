@@ -12,23 +12,39 @@ export interface SurveyAnswers {
   workLifeBalance: string;
 }
 
-export interface Recommendation {
+export interface StudyFieldRecommendation {
   study_field: string;
   reason: string;
 }
 
+export interface StudyProgramRecommendation {
+  study_program: string;
+  reason: string;
+  career_prospects: string;
+}
+
 export interface IOrientationSurveyContext {
   orientationSurveyIndex: number;
+  progress: number;
   loading: boolean;
-  disabled: boolean;
   surveyAnswers: SurveyAnswers;
-  recommendations: Recommendation[];
+  studyFieldRecommendations: StudyFieldRecommendation[];
+  studyProgramRecommendations: StudyProgramRecommendation[];
   setOrientationSurveyIndex: React.Dispatch<React.SetStateAction<number>>;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   setSurveyAnswers: React.Dispatch<React.SetStateAction<SurveyAnswers>>;
-  setRecommendations: React.Dispatch<React.SetStateAction<Recommendation[]>>;
-  generateRecommendations: (surveyAnswers: SurveyAnswers) => void;
+  setStudyFieldRecommendations: React.Dispatch<
+    React.SetStateAction<StudyFieldRecommendation[]>
+  >;
+  setStudyProgramRecommendations: React.Dispatch<
+    React.SetStateAction<StudyProgramRecommendation[]>
+  >;
+  getStudyFieldRecommendations: (surveyAnswers: SurveyAnswers) => void;
+  getStudyProgramRecommendations: (
+    studyField: string,
+    surveyAnswers: SurveyAnswers
+  ) => void;
 }
 
 export interface SurveyScreenProps {
