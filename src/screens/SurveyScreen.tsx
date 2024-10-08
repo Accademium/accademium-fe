@@ -52,8 +52,13 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
       setSelected(0);
       setQuesitonIndex(questionIndex + 1);
     } else {
-      getStudyFieldRecommendations(surveyAnswers);
+      setSurveyAnswers((prev) => ({
+        ...prev,
+        [getSurveyAnswersKeys()[questionIndex]]:
+          questionsAndAnswers[questionIndex][selected],
+      }));
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
+      getStudyFieldRecommendations(surveyAnswers);
     }
   };
 
@@ -63,16 +68,16 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
       <div className='flex flex-col h-full justify-between items-center'>
         <Progress
           value={progress}
-          className='lg:w-[28rem] w-[20rem] h-[20px]'
+          className='lg:w-[44rem] w-[22rem] h-[24px]'
         />
         {/* Question */}
-        <h1 className='font-coolvetica lg:text-3xl text-xl px-4 font-bold text-center '>
+        <h1 className='font-coolvetica lg:text-4xl text-xl px-4 font-bold text-center '>
           {questionsAndAnswers[questionIndex][0]}
         </h1>
         {/* Answers */}
         <div className='flex flex-col lg:gap-y-6 gap-y-8'>
           <button
-            className={`border-2 rounded-xl lg:w-[42rem] w-[22rem] p-2.5 pl-4 hover:border-black ${
+            className={`border-2 rounded-xl lg:w-[42rem] w-[22rem] h-[4rem] p-2.5 pl-4 hover:border-black ${
               selected === 1 ? 'border-black' : ''
             }`}
             onClick={() => setSelected(1)}
@@ -82,7 +87,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
             </h3>
           </button>
           <button
-            className={`border-2 rounded-xl lg:w-[42rem] w-[22rem] p-2.5 pl-4 hover:border-black ${
+            className={`border-2 rounded-xl lg:w-[42rem] w-[22rem] h-[4rem] p-2.5 pl-4 hover:border-black ${
               selected === 2 ? 'border-black' : ''
             }`}
             onClick={() => setSelected(2)}
@@ -92,7 +97,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
             </h3>
           </button>
           <button
-            className={`border-2 rounded-xl lg:w-[42rem] w-[22rem] p-2.5 pl-4 hover:border-black ${
+            className={`border-2 rounded-xl lg:w-[42rem] w-[22rem] h-[4rem] p-2.5 pl-4 hover:border-black ${
               selected === 3 ? 'border-black' : ''
             }`}
             onClick={() => setSelected(3)}
@@ -102,7 +107,7 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
             </h3>
           </button>
           <button
-            className={`border-2 rounded-xl lg:w-[42rem] w-[22rem] py-2.5 pl-4 hover:border-black ${
+            className={`border-2 rounded-xl lg:w-[42rem] w-[22rem] h-[4rem] py-2.5 pl-4 hover:border-black ${
               selected === 4 ? 'border-black' : ''
             }`}
             onClick={() => setSelected(4)}

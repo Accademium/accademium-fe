@@ -46,10 +46,13 @@ export const CountryScreen: React.FC<{}> = () => {
     orientationSurveyIndex,
     progress,
     setOrientationSurveyIndex,
+    setUserData,
     setProgress,
+    getCityRecommendations,
   } = useContext(OrientationSurveyContext);
 
   const [selected, setSelected] = useState<number>(-1);
+  const [country, setCountry] = useState<string>('');
 
   const handlePlayVideo = () => {
     toast({
@@ -57,6 +60,11 @@ export const CountryScreen: React.FC<{}> = () => {
       description:
         'The play country video feature is currently under development. Please check back later.',
     });
+  };
+
+  const handleSelect = (index: number, country: string) => {
+    setSelected(index);
+    setCountry(country);
   };
 
   const handlePrevious = () => {
@@ -72,8 +80,13 @@ export const CountryScreen: React.FC<{}> = () => {
       return;
     }
 
+    setUserData((prev) => ({
+      ...prev,
+      countryChoice: country,
+    }));
     setProgress(progress + 16);
     setOrientationSurveyIndex(orientationSurveyIndex + 1);
+    getCityRecommendations(country);
   };
 
   return (
@@ -83,14 +96,14 @@ export const CountryScreen: React.FC<{}> = () => {
         {/* Countries Container */}
         <div className='flex flex-row justify-center items-center w-full gap-x-4'>
           {/* Country Selection Container  */}
-          <div className='flex flex-col border-2 rounded-3xl p-2 gap-y-1'>
+          <div className='flex flex-col border-2 rounded-2xl '>
             {countryData.map((data, index) => {
               return (
                 <button
                   key={index}
-                  className={`border-2 rounded-3xl border-gray w-[18rem] h-[60px] flex flex-row justify-between items-center px-4 hover:border-black relative 
+                  className={`border-2 rounded-xl border-gray w-[18rem] h-[60px] flex flex-row justify-between items-center px-4 hover:border-black relative 
                   ${selected === index ? 'border-black' : ''} `}
-                  onClick={() => setSelected(index)}
+                  onClick={() => handleSelect(index, data[1])}
                 >
                   <div className='flex flex-row items-center gap-x-4'>
                     <img src={data[0]} width={30} height={30} />

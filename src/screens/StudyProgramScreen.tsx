@@ -18,10 +18,11 @@ export const StudyProgramScreen: React.FC<{}> = () => {
     progress,
     studyProgramRecommendations,
     setOrientationSurveyIndex,
+    setUserData,
     setProgress,
   } = useContext(OrientationSurveyContext);
 
-  const [selected, setSelected] = useState<number>(-1);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
   const handlePrevious = () => {
     setProgress(progress - 16);
@@ -29,13 +30,18 @@ export const StudyProgramScreen: React.FC<{}> = () => {
   };
 
   const handleNext = () => {
-    if (selected === -1) {
+    if (selectedIndex === -1) {
       toast({
         description: 'You need to select an answer in order to proceed.',
       });
       return;
     }
 
+    setUserData((prev) => ({
+      ...prev,
+      studyProgramChoice:
+        studyProgramRecommendations[selectedIndex].study_program,
+    }));
     setProgress(progress + 16);
     setOrientationSurveyIndex(orientationSurveyIndex + 1);
   };
@@ -50,9 +56,9 @@ export const StudyProgramScreen: React.FC<{}> = () => {
             return (
               <button
                 key={index}
-                className={`border-2 rounded-3xl border-gray w-[18rem] h-[65px] flex flex-row justify-between items-center px-4 hover:border-black relative 
-                  ${selected === index ? 'border-black' : ''} `}
-                onClick={() => setSelected(index)}
+                className={`border-2 rounded-2xl border-gray w-[18rem] h-[65px] flex flex-row justify-between items-center px-4 hover:border-black relative 
+                  ${selectedIndex === index ? 'border-black' : ''} `}
+                onClick={() => setSelectedIndex(index)}
               >
                 <h3 className='font-coolvetica font-bold'>
                   {recommendation.study_program}

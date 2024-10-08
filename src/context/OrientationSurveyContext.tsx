@@ -2,9 +2,11 @@ import React, { createContext, useState } from 'react';
 
 import {
   IOrientationSurveyContext,
+  UserData,
   SurveyAnswers,
   StudyFieldRecommendation,
   StudyProgramRecommendation,
+  CityRecommendation,
 } from '@/types';
 
 import { getQuestions, getStudyFields, getJsonRegex } from '@/utils';
@@ -14,6 +16,14 @@ export const OrientationSurveyContext =
     orientationSurveyIndex: 0,
     progress: 0,
     loading: false,
+    userData: {
+      surveyResponses: {},
+      studyFieldChoice: '',
+      studyProgramChoice: '',
+      countryChoice: '',
+      cityChoice: '',
+      universityChoice: '',
+    },
     surveyAnswers: {
       careerInterests: '',
       workEnvironment: '',
@@ -28,14 +38,18 @@ export const OrientationSurveyContext =
     },
     studyFieldRecommendations: [],
     studyProgramRecommendations: [],
+    cityRecommendations: [],
     setOrientationSurveyIndex: () => {},
     setProgress: () => {},
     setLoading: () => {},
+    setUserData: () => {},
     setSurveyAnswers: () => {},
     setStudyFieldRecommendations: () => {},
     setStudyProgramRecommendations: () => {},
+    setCityRecommendations: () => {},
     getStudyFieldRecommendations: () => {},
     getStudyProgramRecommendations: () => {},
+    getCityRecommendations: () => {},
   });
 
 export const OrientationSurveyProvider: React.FC<{
@@ -45,6 +59,26 @@ export const OrientationSurveyProvider: React.FC<{
     useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [userData, setUserData] = useState<UserData>({
+    surveyResponses: {
+      careerInterests: '',
+      workEnvironment: '',
+      problemSolving: '',
+      skillsDevelopment: '',
+      taskPreference: '',
+      learningPreference: '',
+      careerGoals: '',
+      careerMotivation: '',
+      adversityHandling: '',
+      workLifeBalance: '',
+    },
+    studyFieldChoice: '',
+    studyProgramChoice: '',
+    countryChoice: '',
+    cityChoice: '',
+    universityChoice: '',
+  });
 
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswers>({
     careerInterests: '',
@@ -64,6 +98,14 @@ export const OrientationSurveyProvider: React.FC<{
 
   const [studyProgramRecommendations, setStudyProgramRecommendations] =
     useState<StudyProgramRecommendation[]>([]);
+
+  const [cityRecommendations, setCityRecommendations] = useState<
+    CityRecommendation[]
+  >([]);
+
+  const [universityRecommendations, setUniversityRecommendations] = useState<
+    []
+  >([]);
 
   const getStudyFieldRecommendations = async (surveyAnswers: SurveyAnswers) => {
     setLoading(true);
@@ -239,23 +281,121 @@ export const OrientationSurveyProvider: React.FC<{
     }
   };
 
+  const getCityRecommendations = async (country: string) => {
+    setLoading(true);
+
+    const prompt = `Based on the selected country ${country}, provide details about five cities within this country suitable for students. Please include a brief description of each city similar to the following example:
+    “Amsterdam is a vibrant city known for its historic canals, diverse culture, and renowned museums, making it a hub of art and commerce.”
+
+    Additionally, rate each city for the following five categories on a scale of 1 to 5 stars (half-star ratings are allowed):
+
+    •	housing_availability
+    •	nightlife
+    •	societal_inclusion
+    •	work_opportunities
+    •	safety
+
+    Please format the response strictly in JSON without any additional text or assumptions.
+
+    The JSON format should look like this:
+        
+    {
+      "recommendations": [
+        {
+          "city_name": "City Name",
+          "description": "Short description of the city.",
+          "ratings": {
+            "housing_availability": 4.5,
+            "nightlife": 3.0,
+            "societal_inclusion": 4.0,
+            "work_opportunities": 5.0,
+            "safety": 3.5
+          }
+        },
+        {
+          "city_name": "City Name",
+          "description": "Short description of the city.",
+          "ratings": {
+            "housing_availability": 4.0,
+            "nightlife": 2.5,
+            "societal_inclusion": 4.5,
+            "work_opportunities": 3.5,
+            "safety": 4.0
+          }
+        },
+        ...
+      ]
+    }`;
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert in education and career counseling.',
+          },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        model: 'gpt-4o',
+        temperature: 0.2,
+        max_tokens: 1000,
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_OPENAI_API_URL,
+        options
+      );
+
+      const json = await response.json();
+
+      const data = json.choices[0].message.content;
+      console.log('Data: ', data);
+      const dataFormatted = data.replace(getJsonRegex(), '');
+      console.log('Data Formatted:', dataFormatted);
+      const dataParsed = JSON.parse(dataFormatted);
+      console.log('Data Parsed:', dataParsed);
+
+      const { recommendations } = dataParsed;
+
+      setCityRecommendations(recommendations);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <OrientationSurveyContext.Provider
       value={{
         orientationSurveyIndex,
         progress,
         loading,
+        userData,
         surveyAnswers,
         studyFieldRecommendations,
         studyProgramRecommendations,
+        cityRecommendations,
         setOrientationSurveyIndex,
         setProgress,
         setLoading,
+        setUserData,
         setSurveyAnswers,
         setStudyFieldRecommendations,
         setStudyProgramRecommendations,
+        setCityRecommendations,
         getStudyFieldRecommendations,
         getStudyProgramRecommendations,
+        getCityRecommendations,
       }}
     >
       {children}

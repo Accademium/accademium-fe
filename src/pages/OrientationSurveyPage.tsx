@@ -21,10 +21,11 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Loader2 } from 'lucide-react';
 
-import { SurveyScreen } from '../screens/SurveyScreen';
-import { StudyFieldScreen } from '../screens/StudyFieldScreen';
+import { SurveyScreen } from '@/screens/SurveyScreen';
+import { StudyFieldScreen } from '@/screens/StudyFieldScreen';
 import { StudyProgramScreen } from '@/screens/StudyProgramScreen';
 import { CountryScreen } from '@/screens/CountryScreen';
+import { CityScreen } from '@/screens/CityScreen';
 
 const screenTitles = new Map<number, string>([
   [1, 'The study fields that align the best with your interest and strengths'],
@@ -80,7 +81,7 @@ const OrientationSurveyPage: React.FC = () => {
 
   return (
     <>
-      <div className='flex flex-col w-screen h-screen items-center justify-between'>
+      <div className='flex flex-col w-screen h-screen'>
         <header className='w-full h-[10rem] flex flex-col justify-between items-center py-12 flex-shrink-0'>
           <img
             className='lg:self-start lg:ml-12'
@@ -91,13 +92,13 @@ const OrientationSurveyPage: React.FC = () => {
           <Separator className='w-[95%]' />
         </header>
 
-        <main className='w-full h-full flex flex-col gap-y-8'>
+        <main className='w-full h-full flex flex-col gap-y-2'>
           {/* Progress Bar + Dashboard Button  */}
           {orientationSurveyIndex != 0 && !loading && (
             <div className='flex lg:flex-row flex-col-reverse justify-center items-center w-full h-[2.5rem]'>
               <Progress
                 value={progress}
-                className='lg:w-[28rem] w-[20rem] h-[20px]'
+                className='lg:w-[44rem] w-[22rem] h-[24px]'
               />
 
               {/* Dashboard Button */}
@@ -187,6 +188,13 @@ const OrientationSurveyPage: React.FC = () => {
           {orientationSurveyIndex == 3 && !loading && (
             <>
               <CountryScreen />
+            </>
+          )}
+
+          {/* City Screen */}
+          {orientationSurveyIndex == 4 && !loading && (
+            <>
+              <CityScreen />
             </>
           )}
         </main>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
@@ -31,9 +31,17 @@ export const StudyFieldScreen: React.FC = () => {
     studyFieldRecommendations,
     studyProgramRecommendations,
     setOrientationSurveyIndex,
+    setUserData,
     setProgress,
     getStudyProgramRecommendations,
   } = useContext(OrientationSurveyContext);
+
+  useEffect(() => {
+    setUserData((prev) => ({
+      ...prev,
+      surveyResponses: surveyAnswers,
+    }));
+  }, []);
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
@@ -49,6 +57,10 @@ export const StudyFieldScreen: React.FC = () => {
       setProgress(16);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
+      setUserData((prev) => ({
+        ...prev,
+        studyFieldChoice: studyFieldRecommendations[selectedIndex].study_field,
+      }));
       setProgress(16);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
       getStudyProgramRecommendations(

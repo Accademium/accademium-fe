@@ -24,11 +24,11 @@ const Tooltip: React.FC<{
         <div
           className={`${tooltipStyle} border w-[24rem] rounded-xl bg-white p-6 z-10`}
         >
-          <h3 className='font-coolvetica font-light text-xs text-gray-500'>
+          <h3 className='font-coolvetica font-light text-sm text-gray-500'>
             {reasonText}
           </h3>
           {careerProspectsText && (
-            <h3 className='font-coolvetica font-light text-xs text-black mt-2'>
+            <h3 className='font-coolvetica font-light text-sm text-black mt-2'>
               {careerProspectsText}
             </h3>
           )}
