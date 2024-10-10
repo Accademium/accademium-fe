@@ -26,6 +26,8 @@ import { StudyFieldScreen } from '@/screens/StudyFieldScreen';
 import { StudyProgramScreen } from '@/screens/StudyProgramScreen';
 import { CountryScreen } from '@/screens/CountryScreen';
 import { CityScreen } from '@/screens/CityScreen';
+import { UniversityScreen } from '@/screens/UniversityScreen';
+import { UniversityDetailsScreen } from '@/screens/UniversityDetailsScreen';
 
 const screenTitles = new Map<number, string>([
   [1, 'The study fields that align the best with your interest and strengths'],
@@ -195,6 +197,20 @@ const OrientationSurveyPage: React.FC = () => {
           {orientationSurveyIndex == 4 && !loading && (
             <>
               <CityScreen />
+            </>
+          )}
+
+          {/* University Screen */}
+          {orientationSurveyIndex == 5 && !loading && (
+            <>
+              <UniversityScreen />
+            </>
+          )}
+
+          {/* University Details Screen */}
+          {orientationSurveyIndex == 6 && !loading && (
+            <>
+              <UniversityDetailsScreen />
             </>
           )}
         </main>

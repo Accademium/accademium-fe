@@ -35,6 +35,12 @@ export interface CityRecommendation {
   };
 }
 
+export interface UniversityRecommendation {
+  university_name: string;
+  short_description: string;
+  long_description: string;
+}
+
 export interface UserData {
   surveyResponses: SurveyAnswers;
   studyFieldChoice: string;
@@ -60,6 +66,7 @@ export interface IOrientationSurveyContext {
   studyFieldRecommendations: StudyFieldRecommendation[];
   studyProgramRecommendations: StudyProgramRecommendation[];
   cityRecommendations: CityRecommendation[];
+  universityRecommendations: UniversityRecommendation[];
   setOrientationSurveyIndex: React.Dispatch<React.SetStateAction<number>>;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -74,12 +81,16 @@ export interface IOrientationSurveyContext {
   setCityRecommendations: React.Dispatch<
     React.SetStateAction<CityRecommendation[]>
   >;
+  setUniversityRecommendations: React.Dispatch<
+    React.SetStateAction<UniversityRecommendation[]>
+  >;
   getStudyFieldRecommendations: (surveyAnswers: SurveyAnswers) => void;
   getStudyProgramRecommendations: (
     studyField: string,
     surveyAnswers: SurveyAnswers
   ) => void;
   getCityRecommendations: (country: string) => void;
+  getUniversityRecommendations: (city: string, studyProgram: string) => void;
 }
 
 export interface SurveyScreenProps {

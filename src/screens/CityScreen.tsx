@@ -25,10 +25,12 @@ export const CityScreen: React.FC<{}> = () => {
   const {
     orientationSurveyIndex,
     progress,
+    userData,
     cityRecommendations,
     setOrientationSurveyIndex,
     setUserData,
     setProgress,
+    getUniversityRecommendations,
   } = useContext(OrientationSurveyContext);
 
   const [selected, setSelected] = useState<number>(-1);
@@ -58,6 +60,7 @@ export const CityScreen: React.FC<{}> = () => {
     }));
     setProgress(progress + 16);
     setOrientationSurveyIndex(orientationSurveyIndex + 1);
+    getUniversityRecommendations(city, userData.studyProgramChoice);
   };
 
   return (

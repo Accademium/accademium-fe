@@ -7,6 +7,7 @@ import {
   StudyFieldRecommendation,
   StudyProgramRecommendation,
   CityRecommendation,
+  UniversityRecommendation,
 } from '@/types';
 
 import { getQuestions, getStudyFields, getJsonRegex } from '@/utils';
@@ -39,6 +40,7 @@ export const OrientationSurveyContext =
     studyFieldRecommendations: [],
     studyProgramRecommendations: [],
     cityRecommendations: [],
+    universityRecommendations: [],
     setOrientationSurveyIndex: () => {},
     setProgress: () => {},
     setLoading: () => {},
@@ -47,16 +49,18 @@ export const OrientationSurveyContext =
     setStudyFieldRecommendations: () => {},
     setStudyProgramRecommendations: () => {},
     setCityRecommendations: () => {},
+    setUniversityRecommendations: () => {},
     getStudyFieldRecommendations: () => {},
     getStudyProgramRecommendations: () => {},
     getCityRecommendations: () => {},
+    getUniversityRecommendations: () => {},
   });
 
 export const OrientationSurveyProvider: React.FC<{
   children: React.ReactElement;
 }> = ({ children }) => {
   const [orientationSurveyIndex, setOrientationSurveyIndex] =
-    useState<number>(0);
+    useState<number>(6);
   const [progress, setProgress] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -74,10 +78,10 @@ export const OrientationSurveyProvider: React.FC<{
       workLifeBalance: '',
     },
     studyFieldChoice: '',
-    studyProgramChoice: '',
+    studyProgramChoice: 'Communication Studies',
     countryChoice: '',
     cityChoice: '',
-    universityChoice: '',
+    universityChoice: 'Hanze University of Applied Sciences',
   });
 
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswers>({
@@ -101,11 +105,87 @@ export const OrientationSurveyProvider: React.FC<{
 
   const [cityRecommendations, setCityRecommendations] = useState<
     CityRecommendation[]
-  >([]);
+  >([
+    {
+      city_name: 'Amsterdam',
+      description:
+        'Amsterdam is a vibrant city known for its historic canals, diverse culture, and renowned museums, making it a hub of art and commerce.',
+      ratings: {
+        housing_availability: 3.0,
+        nightlife: 5.0,
+        societal_inclusion: 4.5,
+        work_opportunities: 4.5,
+        safety: 3.5,
+      },
+    },
+    {
+      city_name: 'Utrecht',
+      description:
+        'Utrecht is a charming city with a medieval old town, lively student population, and a strong focus on sustainability and innovation.',
+      ratings: {
+        housing_availability: 3.5,
+        nightlife: 4.0,
+        societal_inclusion: 4.0,
+        work_opportunities: 4.0,
+        safety: 4.0,
+      },
+    },
+    {
+      city_name: 'Rotterdam',
+      description:
+        'Rotterdam is a modern city known for its impressive architecture, bustling port, and a dynamic cultural scene.',
+      ratings: {
+        housing_availability: 4.0,
+        nightlife: 4.5,
+        societal_inclusion: 4.0,
+        work_opportunities: 4.5,
+        safety: 3.5,
+      },
+    },
+    {
+      city_name: 'Leiden',
+      description:
+        'Leiden is a picturesque city with a rich history, home to one of the oldest universities in the Netherlands, and a vibrant student life.',
+      ratings: {
+        housing_availability: 3.5,
+        nightlife: 3.5,
+        societal_inclusion: 4.5,
+        work_opportunities: 3.5,
+        safety: 4.5,
+      },
+    },
+    {
+      city_name: 'Groningen',
+      description:
+        'Groningen is a youthful city with a large student population, known for its lively cultural scene and innovative spirit.',
+      ratings: {
+        housing_availability: 4.0,
+        nightlife: 4.5,
+        societal_inclusion: 4.5,
+        work_opportunities: 3.5,
+        safety: 4.0,
+      },
+    },
+  ]);
 
   const [universityRecommendations, setUniversityRecommendations] = useState<
-    []
-  >([]);
+    UniversityRecommendation[]
+  >([
+    {
+      university_name: 'University of Amsterdam',
+      short_description:
+        'The University of Amsterdam is a public university located in Amsterdam, Netherlands, known for its rich history and diverse student body.',
+      long_description:
+        "The University of Amsterdam, established in 1632, is the third-oldest university in the Netherlands. It is one of the largest research universities in Europe with 30,000 students, 5,000 staff and 285 study programs. The university's Communication and Media Studies program is ranked among the top in the world.",
+    },
+    {
+      university_name: 'VU University Amsterdam',
+      short_description:
+        'VU University Amsterdam is a state-funded university with a distinct social and scientific vision.',
+      long_description:
+        "VU University Amsterdam, founded in 1880, offers a variety of study programs in different fields. The university's Communication Science program provides students with a thorough understanding of the field of communication, preparing them for careers in a wide range of sectors. The university is committed to making a significant contribution to a sustainable society.",
+    },
+  ]);
 
   const getStudyFieldRecommendations = async (surveyAnswers: SurveyAnswers) => {
     setLoading(true);
@@ -374,6 +454,86 @@ export const OrientationSurveyProvider: React.FC<{
     }
   };
 
+  const getUniversityRecommendations = async (
+    city: string,
+    studyProgram: string
+  ) => {
+    setLoading(true);
+
+    const prompt = `Based on the selected city "${city}" and the study program "${studyProgram}", provide details about two universities within this city that offer relevant programs. Please include a brief description and a longer description for each university, formatted as follows:
+  
+    Short description example:
+    "Hanze University of Applied Sciences is a leading institution known for its practical approach to education, strong industry connections, and emphasis on innovation and entrepreneurship."
+  
+    Long description example:
+    "University of Groningen is a public research university in the northern Netherlands and one of the most traditional and prestigious universities in the Netherlands. University of Groningen was founded in 1614, making it the second oldest in the country, after Leiden University. Notable Alumni of the University of Groningen include four Nobel Prize winners, nine Spinoza Prize winners, one Stevin Prize winner, and various members of the Dutch royal family."
+  
+    Please format the response strictly in JSON without any additional text or assumptions. The JSON format should look like this:
+  
+    {
+      "recommendations": [
+        {
+          "university_name": "University Name",
+          "short_description": "Brief description of the university.",
+          "long_description": "Detailed description of the university."
+        },
+        {
+          "university_name": "University Name",
+          "short_description": "Brief description of the university.",
+          "long_description": "Detailed description of the university."
+        },
+        ...
+      ]
+    }`;
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert in education and career counseling.',
+          },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        model: 'gpt-4',
+        temperature: 0.2,
+        max_tokens: 1000,
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_OPENAI_API_URL,
+        options
+      );
+
+      const json = await response.json();
+
+      const data = json.choices[0].message.content;
+      console.log('Data: ', data);
+      const dataFormatted = data.replace(getJsonRegex(), '');
+      console.log('Data Formatted:', dataFormatted);
+      const dataParsed = JSON.parse(dataFormatted);
+      console.log('Data Parsed:', dataParsed);
+
+      const { recommendations } = dataParsed;
+
+      setUniversityRecommendations(recommendations);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <OrientationSurveyContext.Provider
       value={{
@@ -385,6 +545,7 @@ export const OrientationSurveyProvider: React.FC<{
         studyFieldRecommendations,
         studyProgramRecommendations,
         cityRecommendations,
+        universityRecommendations,
         setOrientationSurveyIndex,
         setProgress,
         setLoading,
@@ -393,9 +554,11 @@ export const OrientationSurveyProvider: React.FC<{
         setStudyFieldRecommendations,
         setStudyProgramRecommendations,
         setCityRecommendations,
+        setUniversityRecommendations,
         getStudyFieldRecommendations,
         getStudyProgramRecommendations,
         getCityRecommendations,
+        getUniversityRecommendations,
       }}
     >
       {children}
