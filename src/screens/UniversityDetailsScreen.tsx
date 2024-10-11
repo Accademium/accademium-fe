@@ -320,7 +320,7 @@ export const UniversityDetailsScreen: React.FC = () => {
                     <FontAwesomeIcon
                       icon={faChevronLeft}
                       className={`text-md ${
-                        enrollmentInfoIndex == 1 ? 'text-gray-200' : ''
+                        enrollmentInfoIndex == 0 ? 'text-gray-200' : ''
                       }`}
                     />
                   </button>
@@ -329,7 +329,7 @@ export const UniversityDetailsScreen: React.FC = () => {
                     <FontAwesomeIcon
                       icon={faChevronRight}
                       className={`text-md ${
-                        enrollmentInfoIndex == 2 ? 'text-gray-200' : ''
+                        enrollmentInfoIndex == 1 ? 'text-gray-200' : ''
                       }`}
                     />
                   </button>
