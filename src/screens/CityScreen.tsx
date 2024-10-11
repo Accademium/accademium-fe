@@ -111,7 +111,7 @@ export const CityScreen: React.FC<{}> = () => {
                   <div className='flex flex-col justify-between h-full'>
                     {/* City Rating Row */}
                     {Array.from({ length: cityCriteria.length }).map(
-                      (row, rowIndex) => {
+                      (_, rowIndex) => {
                         const cityRatings = Object.values(ratings);
                         const hasHalfStar = cityRatings[rowIndex] % 1 !== 0;
 
@@ -120,7 +120,7 @@ export const CityScreen: React.FC<{}> = () => {
                             {/* Render full stars */}
                             {Array.from({
                               length: Math.floor(cityRatings[rowIndex]),
-                            }).map((column, columnIndex) => (
+                            }).map((_, columnIndex) => (
                               <img
                                 key={columnIndex}
                                 src='../../images/star_icon.png'

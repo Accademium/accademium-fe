@@ -16,11 +16,13 @@ export const UniversityScreen: React.FC<{}> = () => {
   const { toast } = useToast();
   const {
     orientationSurveyIndex,
+    userData,
     progress,
     universityRecommendations,
     setOrientationSurveyIndex,
     setUserData,
     setProgress,
+    getUniversityDetails,
   } = useContext(OrientationSurveyContext);
 
   const [selected, setSelected] = useState<number>(-1);
@@ -50,6 +52,7 @@ export const UniversityScreen: React.FC<{}> = () => {
     }));
     setProgress(progress + 16);
     setOrientationSurveyIndex(orientationSurveyIndex + 1);
+    getUniversityDetails(university, userData.studyProgramChoice);
   };
 
   return (
@@ -64,6 +67,7 @@ export const UniversityScreen: React.FC<{}> = () => {
 
             return (
               <button
+                key={index}
                 onClick={() => handleSelect(index, university_name)}
                 className={`flex flex-col justify-between border-2 rounded-2xl border-gray w-[30rem] h-[28rem]
               hover:border-black py-5 px-6 ${
@@ -91,8 +95,8 @@ export const UniversityScreen: React.FC<{}> = () => {
                 </div>
 
                 {/* University Description */}
-                <div className='flex items-center h-[12rem] px-2'>
-                  <p className='font-coolvetica font-normal text-sm text-left '>
+                <div className='h-[12rem] p-1'>
+                  <p className='font-coolvetica font-normal text-sm'>
                     {long_description}
                   </p>
                 </div>

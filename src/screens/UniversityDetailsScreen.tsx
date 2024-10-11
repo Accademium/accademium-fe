@@ -15,11 +15,27 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '../components/Tooltip';
 import { Separator } from '@/components/ui/separator';
 
+const programDetailsLabels = [
+  'About the programme',
+  'Year 1',
+  'Year 2',
+  'Year 3',
+  'Year 4',
+  'Career Prospects',
+];
+
+const enrollmentDetailsLabels = [
+  'Application and enrollment',
+  'Eligibility criteria',
+  'Language requirements',
+];
+
 export const UniversityDetailsScreen: React.FC = () => {
   const {
     orientationSurveyIndex,
     progress,
     userData,
+    universityDetails,
     setOrientationSurveyIndex,
     setProgress,
   } = useContext(OrientationSurveyContext);
@@ -33,10 +49,44 @@ export const UniversityDetailsScreen: React.FC = () => {
   };
 
   const handleNext = () => {
-    setProgress(progress + 16);
-    setOrientationSurveyIndex(orientationSurveyIndex + 1);
+    console.log('Apply button pressed!');
   };
 
+  const handlePreviousStudyInfo = () => {
+    if (studyInfoIndex > 0) {
+      setStudyInfoIndex(studyInfoIndex - 1);
+    }
+  };
+
+  const handleNextStudyInfo = () => {
+    if (studyInfoIndex < 5) {
+      setStudyInfoIndex(studyInfoIndex + 1);
+    }
+  };
+
+  const handlePreviousEnrollmentInfo = () => {
+    if (enrollmentInfoIndex > 0) {
+      setEnrollmentInfoIndex(enrollmentInfoIndex - 1);
+    }
+  };
+
+  const handleNextEnrollmentInfo = () => {
+    if (enrollmentInfoIndex < 1) {
+      setEnrollmentInfoIndex(enrollmentInfoIndex + 1);
+    }
+  };
+
+  const {
+    name,
+    short_description,
+    ranking,
+    contactInfo,
+    addressInfo,
+    tuitionFee,
+    programInfo,
+    programDetails,
+    enrollmentDetails,
+  } = universityDetails;
   return (
     <>
       {/* Main Container */}
@@ -44,16 +94,16 @@ export const UniversityDetailsScreen: React.FC = () => {
         {/* University Details Container */}
         <div className='border-2 rounded-3xl flex flex-row items-center border-gray h-[28rem] w-[80rem]'>
           {/* University Info Container */}
-          <div className='flex flex-col justify-between w-[30rem] h-full px-5 py-4'>
+          <div className='flex flex-col justify-between w-[36rem] h-full px-5 py-4'>
             {/* University Title + University Logo */}
-            <div className='flex flex-col gap-y-4 h-[11rem] mt-4'>
+            <div className='flex flex-col gap-y-5 h-[11rem] mt-4'>
               <div className='flex flex-row justify-between w-full relative'>
                 <h3 className='font-coolvetica font-bold text-lg text-left leading-none'>
-                  {userData.universityChoice}
+                  {name}
                 </h3>
                 <Tooltip
-                  reasonText='test'
-                  tooltipStyle='absolute -top-[3.5rem] -right-[0.75rem]'
+                  reasonText={short_description}
+                  tooltipStyle='absolute -top-[7.5rem] -right-[0.75rem]'
                 />
               </div>
 
@@ -61,22 +111,22 @@ export const UniversityDetailsScreen: React.FC = () => {
               <button>
                 <img
                   className='border border-gray rounded-3xl hover:border-black'
-                  src='https://placehold.co/550x180?&font=Montserrat&text=University+Logo'
+                  src='https://placehold.co/550x175?&font=Montserrat&text=University+Logo'
                 />
               </button>
               <Separator />
             </div>
 
             {/* University Description */}
-            <div className='flex flex-col h-[12.5rem] gap-y-4 w-full'>
+            <div className='flex flex-col gap-y-4 w-full p-2'>
               <h4 className='font-coolvetica font-bold text-sm text-left '>
-                #145 in Europe University Rankings - TopUniversities (2024)
+                {ranking}
               </h4>
 
               {/* University Contact + University Address  */}
               <div className='flex flex-row w-full justify-between'>
                 {/* Contact Info Container */}
-                <div className='flex flex-col gap-y-0.5'>
+                <div className='flex flex-col gap-y-0.5 w-full'>
                   <h4 className='font-coolvetica font-bold text-sm'>
                     Contact:
                   </h4>
@@ -84,7 +134,7 @@ export const UniversityDetailsScreen: React.FC = () => {
                   <div className='flex flex-row items-center gap-x-2'>
                     <FontAwesomeIcon icon={faPhone} className='text-sm' />
                     <p className='font-coolvetica font-normal text-sm'>
-                      +31 50 595 55 55
+                      {contactInfo.phone}
                     </p>
                   </div>
 
@@ -92,13 +142,13 @@ export const UniversityDetailsScreen: React.FC = () => {
                   <div className='flex flex-row items-center gap-x-2'>
                     <FontAwesomeIcon icon={faEnvelope} className='text-sm' />
                     <p className='font-coolvetica font-normal text-sm'>
-                      info@org.hanze.nl
+                      {contactInfo.email}
                     </p>
                   </div>
                 </div>
 
                 {/* Address Info Container */}
-                <div className='flex flex-col gap-y-0.5'>
+                <div className='flex flex-col gap-y-0.5 w-full'>
                   <h4 className='font-coolvetica font-bold text-sm text-left'>
                     Address:
                   </h4>
@@ -106,7 +156,7 @@ export const UniversityDetailsScreen: React.FC = () => {
                   <div className='flex flex-row items-center gap-x-2'>
                     <FontAwesomeIcon icon={faLocationDot} className='text-sm' />
                     <p className='font-coolvetica font-normal text-sm'>
-                      Zernikeplein 7, 9747 AS
+                      {addressInfo.campusLocation}
                     </p>
                   </div>
 
@@ -114,22 +164,22 @@ export const UniversityDetailsScreen: React.FC = () => {
                   <div className='flex flex-row items-center gap-x-2'>
                     <FontAwesomeIcon icon={faEarthEurope} className='text-sm' />
                     <p className='font-coolvetica font-normal text-sm'>
-                      Groningen, Netherlands
+                      {addressInfo.globeLocation}
                     </p>
                   </div>
                 </div>
               </div>
 
               {/* University Tuition Fees */}
-              <div className='flex flex-col w-full'>
-                <h4 className='font-coolvetica font-bold text-sm text-left'>
+              <div className='flex flex-col w-full h-full'>
+                <h4 className='font-coolvetica font-bold text-sm text-left leading-none'>
                   Tuition Fee:
                 </h4>
                 <p className='font-coolvetica font-normal text-sm'>
-                  €2,314.00 per year for EU/EEA Students
+                  {tuitionFee.eu_students} per year for EU/EEA Students
                 </p>
                 <p className='font-coolvetica font-normal text-sm'>
-                  €8,276.00 per year for Non-EU/EEA Students
+                  {tuitionFee.non_eu_students} per year for Non-EU/EEA Students
                 </p>
               </div>
             </div>
@@ -146,18 +196,18 @@ export const UniversityDetailsScreen: React.FC = () => {
                 <div className='flex flex-col gap-y-1'>
                   <div className='flex flex-row justify-between'>
                     <h4 className='font-coolvetica font-bold text-md text-left leading-none'>
-                      Sensor Technology
+                      {userData.studyProgramChoice}
                     </h4>
                     <h4 className='font-coolvetica font-bold text-md text-left leading-none'>
-                      1/6
+                      {studyInfoIndex + 1}/{programDetails.length}
                     </h4>
                   </div>
                   <h5 className='font-coolvetica font-bold text-xs'>
-                    bachelor • full-time • 4 years • 240 ECTS • Start: September
+                    {programInfo}
                   </h5>
                   <div className='rounded-3xl bg-black h-[1.4rem] w-[10.75rem] flex justify-center items-center'>
                     <h4 className='font-coolvetica font-normal text-white text-xs'>
-                      Language & Communication
+                      {userData.studyFieldChoice}
                     </h4>
                   </div>
                 </div>
@@ -165,34 +215,33 @@ export const UniversityDetailsScreen: React.FC = () => {
                 {/* Study Program Details Long */}
                 <div className='flex flex-col w-full gap-y-1'>
                   <h4 className='font-coolvetica font-bold text-sm leading-none'>
-                    About this programme
+                    {programDetails[studyInfoIndex].length > 0 &&
+                      programDetailsLabels[studyInfoIndex]}
                   </h4>
                   <p className='font-coolvetica font-normal text-xs leading-none'>
-                    During your studies you will leam all about the use of
-                    existing (smart) sensors and their various applications. You
-                    will discover how to make the world better, smarter and
-                    safer with sensors. Just think of the important role they
-                    play in healthcare, high-tech systems or energy. You will
-                    develop into a well-educated, highly sought-after
-                    professional with a large amount of technical expertise and
-                    a thorough knowledge of ICT and electronics.
+                    {programDetails[studyInfoIndex].length > 0 &&
+                      programDetails[studyInfoIndex]}
                   </p>
                 </div>
 
                 {/* Study Program Details Navigation */}
                 <div className='flex flex-row justify-between items-center'>
                   {/* Go Back Button */}
-                  <button>
+                  <button onClick={() => handlePreviousStudyInfo()}>
                     <FontAwesomeIcon
                       icon={faChevronLeft}
-                      className='text-md text-gray-200'
+                      className={`text-md ${
+                        studyInfoIndex == 0 ? 'text-gray-200' : ''
+                      }`}
                     />
                   </button>
                   {/* Go Next Button */}
-                  <button>
+                  <button onClick={() => handleNextStudyInfo()}>
                     <FontAwesomeIcon
                       icon={faChevronRight}
-                      className='text-md'
+                      className={`text-md ${
+                        studyInfoIndex == 5 ? 'text-gray-200' : ''
+                      }`}
                     />
                   </button>
                 </div>
@@ -207,63 +256,81 @@ export const UniversityDetailsScreen: React.FC = () => {
                     Admission & Enrollment
                   </h4>
                   <h4 className='font-coolvetica font-bold text-md text-left leading-none'>
-                    1/2
+                    {enrollmentInfoIndex + 1}/2
                   </h4>
                 </div>
 
                 {/* Admission & Enrollment Details */}
                 <div className='flex flex-col justify-between h-full w-full gap-y-2'>
-                  {/* Deadlines Container */}
-                  <div className='flex flex-col gap-y-1 h-full'>
-                    <h4 className='font-coolvetica font-bold text-sm leading-none'>
-                      Application and enrollment
-                    </h4>
+                  {enrollmentInfoIndex == 0 && (
+                    <>
+                      {/* Deadlines Container */}
+                      <div className='flex flex-col gap-y-1 h-full'>
+                        <h4 className='font-coolvetica font-bold text-sm leading-none'>
+                          {enrollmentDetailsLabels[0]}
+                        </h4>
 
-                    {/* Deadlines */}
-                    <div className='flex flex-col gap-y-2'>
-                      <p className='font-coolvetica font-normal text-xs leading-none'>
-                        The general application deadline:
-                      </p>
-                      <div>
-                        <p className='font-coolvetica font-normal text-xs leading-none'>
-                          • for EU students is 15 August
-                        </p>
-                        <p className='font-coolvetica font-normal text-xs leading-none'>
-                          • for non-EU students is 1 June
+                        {/* Deadlines */}
+                        <div className='flex flex-col gap-y-2'>
+                          <p className='font-coolvetica font-normal text-xs leading-none'>
+                            The general application deadline:
+                          </p>
+                          <div>
+                            <p className='font-coolvetica font-normal text-xs leading-none'>
+                              • for EU students is{' '}
+                              {enrollmentDetails.eu_students}
+                            </p>
+                            <p className='font-coolvetica font-normal text-xs leading-none'>
+                              • for non-EU students is{' '}
+                              {enrollmentDetails.non_eu_students}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Eligibility Criteria Container */}
+                      <div className='flex flex-col gap-y-1 h-full'>
+                        <h4 className='font-coolvetica font-bold text-sm leading-none'>
+                          {enrollmentDetailsLabels[1]}
+                        </h4>
+                        <p className='font-coolvetica font-normal text-xs leading-none '>
+                          {enrollmentDetails.eligibility_criteria}
                         </p>
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
 
-                  {/* Entry Requirements Container */}
-                  <div className='flex flex-col gap-y-1 h-full'>
-                    <h4 className='font-coolvetica font-bold text-sm leading-none'>
-                      Entry requirements
-                    </h4>
-                    <p className='font-coolvetica font-normal text-xs leading-none '>
-                      You are eligible for the programme if you have a diploma
-                      comparable to the Dutch HAVO level (for UK: 4 GCSEs, A*- C
-                      grade, plus 2 AS levels), or higher. Your qualifications
-                      at this level must include mathematics and physics and
-                      preferably chemisbry and/or biology.
-                    </p>
-                  </div>
+                  {/* Language Requirements Container */}
+                  {enrollmentInfoIndex == 1 && (
+                    <div className='flex flex-col justify-center gap-y-1 h-full'>
+                      <h4 className='font-coolvetica font-bold text-sm leading-none'>
+                        {enrollmentDetailsLabels[2]}
+                      </h4>
+                      <p className='font-coolvetica font-normal text-xs leading-none '>
+                        {enrollmentDetails.language_requirements}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Admission & Enrollment Details Navigation */}
                 <div className='flex flex-row justify-between items-center'>
                   {/* Go Back Button */}
-                  <button>
+                  <button onClick={() => handlePreviousEnrollmentInfo()}>
                     <FontAwesomeIcon
                       icon={faChevronLeft}
-                      className='text-md text-gray-200'
+                      className={`text-md ${
+                        enrollmentInfoIndex == 1 ? 'text-gray-200' : ''
+                      }`}
                     />
                   </button>
                   {/* Go Next Button */}
-                  <button>
+                  <button onClick={() => handleNextEnrollmentInfo()}>
                     <FontAwesomeIcon
                       icon={faChevronRight}
-                      className='text-md'
+                      className={`text-md ${
+                        enrollmentInfoIndex == 2 ? 'text-gray-200' : ''
+                      }`}
                     />
                   </button>
                 </div>
@@ -277,12 +344,17 @@ export const UniversityDetailsScreen: React.FC = () => {
               </button>
               {/* Images Container */}
               <div className='flex flex-row justify-center gap-x-4 w-full h-full'>
-                {Array.from({ length: 3 }).map((img, index) => {
+                {Array.from({ length: 3 }).map((_, index) => {
                   return (
-                    <button className='w-[16rem] h-full rounded-3xl'>
+                    <button
+                      key={index}
+                      className='w-[15.5rem] h-full rounded-3xl'
+                    >
                       <img
                         className='border border-gray rounded-3xl'
-                        src='https://placehold.co/550x350?&font=Montserrat&text=University+Image'
+                        src={`https://placehold.co/550x350?&font=Montserrat&text=University+Image+${
+                          index + 1
+                        }`}
                       />
                     </button>
                   );

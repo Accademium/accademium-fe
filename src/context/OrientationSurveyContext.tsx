@@ -8,6 +8,7 @@ import {
   StudyProgramRecommendation,
   CityRecommendation,
   UniversityRecommendation,
+  UniversityDetails,
 } from '@/types';
 
 import { getQuestions, getStudyFields, getJsonRegex } from '@/utils';
@@ -41,6 +42,31 @@ export const OrientationSurveyContext =
     studyProgramRecommendations: [],
     cityRecommendations: [],
     universityRecommendations: [],
+    universityDetails: {
+      name: '',
+      short_description: '',
+      ranking: '',
+      contactInfo: {
+        phone: '',
+        email: '',
+      },
+      addressInfo: {
+        campusLocation: '',
+        globeLocation: '',
+      },
+      tuitionFee: {
+        eu_students: '',
+        non_eu_students: '',
+      },
+      programInfo: '',
+      programDetails: [],
+      enrollmentDetails: {
+        eu_students: '',
+        non_eu_students: '',
+        eligibility_criteria: '',
+        language_requirements: '',
+      },
+    },
     setOrientationSurveyIndex: () => {},
     setProgress: () => {},
     setLoading: () => {},
@@ -50,10 +76,12 @@ export const OrientationSurveyContext =
     setStudyProgramRecommendations: () => {},
     setCityRecommendations: () => {},
     setUniversityRecommendations: () => {},
+    setUniversityDetails: () => {},
     getStudyFieldRecommendations: () => {},
     getStudyProgramRecommendations: () => {},
     getCityRecommendations: () => {},
     getUniversityRecommendations: () => {},
+    getUniversityDetails: () => {},
   });
 
 export const OrientationSurveyProvider: React.FC<{
@@ -77,11 +105,11 @@ export const OrientationSurveyProvider: React.FC<{
       adversityHandling: '',
       workLifeBalance: '',
     },
-    studyFieldChoice: '',
+    studyFieldChoice: 'Language & Communication',
     studyProgramChoice: 'Communication Studies',
     countryChoice: '',
     cityChoice: '',
-    universityChoice: 'Hanze University of Applied Sciences',
+    universityChoice: '',
   });
 
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswers>({
@@ -186,6 +214,45 @@ export const OrientationSurveyProvider: React.FC<{
         "VU University Amsterdam, founded in 1880, offers a variety of study programs in different fields. The university's Communication Science program provides students with a thorough understanding of the field of communication, preparing them for careers in a wide range of sectors. The university is committed to making a significant contribution to a sustainable society.",
     },
   ]);
+
+  const [universityDetails, setUniversityDetails] = useState<UniversityDetails>(
+    {
+      name: 'VU University Amsterdam',
+      short_description:
+        'VU University Amsterdam is renowned for its research and academic excellence, consistently ranking among the top 150 universities worldwide in the Times Higher Education World University Rankings.',
+      ranking: '#138 in Europe University Rankings - TopUniversities (2024)',
+      contactInfo: {
+        phone: '+31 20 598 9898',
+        email: 'info@vu.nl',
+      },
+      addressInfo: {
+        campusLocation: 'De Boelelaan 1105, 1081 HV',
+        globeLocation: 'Amsterdam, Netherlands',
+      },
+      tuitionFee: {
+        eu_students: '€2,314',
+        non_eu_students: '€11,200',
+      },
+      programInfo:
+        'bachelor • full-time • 3 years • 180 ECTS • Start: September 2024',
+      programDetails: [
+        'The Communication Studies program at VU University Amsterdam offers a comprehensive understanding of communication processes in various contexts. It combines theoretical knowledge with practical skills, preparing students for diverse roles in media, corporate communication, and public relations. The program emphasizes critical thinking, media literacy, and effective communication strategies.',
+        "In the initial phase, students are introduced to fundamental concepts of communication, including media theories, communication models, and the role of communication in society. Courses focus on developing analytical skills and understanding the impact of media on public opinion and behavior. Practical workshops enhance students' ability to create and analyze media content.",
+        'The second phase delves deeper into communication research methods and media production techniques. Students explore digital communication, audience analysis, and strategic communication planning. Collaborative projects and case studies provide hands-on experience in designing communication campaigns and evaluating their effectiveness in real-world scenarios.',
+        'In the advanced stage, students specialize in areas such as intercultural communication, corporate communication, or media management. The curriculum includes advanced seminars, group projects, and internships, allowing students to apply their knowledge in professional settings. Emphasis is placed on ethical communication practices and leadership skills.',
+        'The final phase focuses on a capstone project where students conduct independent research or develop a comprehensive communication plan for a client. This phase integrates all learned skills and knowledge, preparing students for the transition to professional roles. Students also have opportunities to study abroad or participate in exchange programs.',
+        "Graduates of the Communication Studies program are well-equipped for careers in media, public relations, marketing, and corporate communication. They can pursue roles such as communication specialists, media analysts, public relations officers, and digital marketing strategists. The program's strong emphasis on analytical and practical skills ensures graduates are competitive in the global job market.",
+      ],
+      enrollmentDetails: {
+        eu_students: '01 May 2024',
+        non_eu_students: '01 April 2024',
+        eligibility_criteria:
+          'Applicants must have a high school diploma equivalent to the Dutch VWO. A strong background in social sciences or humanities is recommended. Prior coursework in communication, media studies, or related fields is advantageous but not mandatory.',
+        language_requirements:
+          "Non-EU students must demonstrate proficiency in English. A minimum CEFR level of B2 is required, or an IELTS score of 6.5, or a TOEFL score of 90. These requirements ensure students can effectively engage with the program's academic content.",
+      },
+    }
+  );
 
   const getStudyFieldRecommendations = async (surveyAnswers: SurveyAnswers) => {
     setLoading(true);
@@ -503,7 +570,7 @@ export const OrientationSurveyProvider: React.FC<{
             content: prompt,
           },
         ],
-        model: 'gpt-4',
+        model: 'gpt-4o',
         temperature: 0.2,
         max_tokens: 1000,
       }),
@@ -534,6 +601,112 @@ export const OrientationSurveyProvider: React.FC<{
     }
   };
 
+  const getUniversityDetails = async (
+    university: string,
+    studyProgram: string
+  ) => {
+    setLoading(true);
+
+    const prompt = `Provide detailed information about the university "${university}" and its "${studyProgram}" program. Please include the following data:
+    - University name
+    - Short description highlighting a notable achievement or ranking of the university (e.g., "Hanze University of Applied Sciences is ranked 25th worldwide in the subcategory 'graduate companies', i.e. companies founded by alumni, in the internationally-recognized U-Multirank (2021).")
+    - Ranking (e.g., "#145 in Europe University Rankings - TopUniversities (2024)")
+    - Contact information (phone and email)
+    - Address, split into two separate fields: 
+      - campusLocation (specific campus address) 
+      - globeLocation (city, country)
+    - Tuition fees for EU and non-EU students as numbers, with a euro (€) sign before the amount
+    - Program information in a single string format, only stating "bachelor" or "master", followed by study format, duration, ECTS, and start date, with "ECTS" in uppercase
+    - Detailed description of the program, broken down into exactly 6 array elements:
+      - The first element should be general information about the program.
+      - The next 4 elements should describe the content of the program for each academic year, but without explicitly mentioning 'Year 1', 'Year 2', etc. Provide an elaborative description of at least 50 words per slide.
+      - The final element should describe career prospects for graduates, also with a minimum of 50 words.
+    - Enrollment information, split into:
+      - Application deadlines for the year 2024 as a **date** only, without the phrase "Application deadline:" before it (for EU and non-EU students)
+      - Eligibility criteria (required diplomas, subject prerequisites)
+      - Language requirements (CEFR B2 level or IELTS/TOEFL scores for non-EU students)
+  
+    Please format the response in JSON as follows:
+  
+    {
+      "name": "University Name",
+      "short_description": "Brief description of a notable achievement or ranking",
+      "ranking": "University ranking",
+      "contactInfo": {
+        "phone": "University phone number",
+        "email": "University email"
+      },
+      "addressInfo": {
+        "campusLocation": "Street address, Postcode",
+        "globeLocation": "City, Country"
+      },
+      "tuitionFee": {
+        "eu_students": "€Tuition fee for EU students",
+        "non_eu_students": "€Tuition fee for non-EU students"
+      },
+      "programInfo": "bachelor/masters • study format • duration • ECTS • Start: start date",
+      "programDetails": [
+        "General information about the program, elaborative and at least 50 words.",
+        "Detailed description of the first year of the program, at least 50 words.",
+        "Detailed description of the second year of the program, at least 50 words.",
+        "Detailed description of the third year of the program, at least 50 words.",
+        "Detailed description of the fourth year of the program, at least 50 words.",
+        "Career prospects after graduation, including job positions and industry sectors, at least 50 words."
+      ],
+      "enrollmentDetails": {
+        "eu_students": "Day Month Year",
+        "non_eu_students": "Day Month Year",
+        "eligibility_criteria": "Required diplomas, subject prerequisites, at least 50 words.",
+        "language_requirements": "Language requirements (CEFR level, IELTS/TOEFL scores), at least 50 words."
+      }
+    }`;
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an expert in education and career counseling.',
+          },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        model: 'gpt-4o',
+        temperature: 0.2,
+        max_tokens: 2000,
+      }),
+    };
+
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_OPENAI_API_URL,
+        options
+      );
+
+      const json = await response.json();
+
+      const data = json.choices[0].message.content;
+      console.log('Data: ', data);
+      const dataFormatted = data.replace(getJsonRegex(), '');
+      console.log('Data Formatted:', dataFormatted);
+      const dataParsed = JSON.parse(dataFormatted);
+      console.log('Data Parsed:', dataParsed);
+
+      setUniversityDetails(dataParsed);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <OrientationSurveyContext.Provider
       value={{
@@ -546,6 +719,7 @@ export const OrientationSurveyProvider: React.FC<{
         studyProgramRecommendations,
         cityRecommendations,
         universityRecommendations,
+        universityDetails,
         setOrientationSurveyIndex,
         setProgress,
         setLoading,
@@ -555,10 +729,12 @@ export const OrientationSurveyProvider: React.FC<{
         setStudyProgramRecommendations,
         setCityRecommendations,
         setUniversityRecommendations,
+        setUniversityDetails,
         getStudyFieldRecommendations,
         getStudyProgramRecommendations,
         getCityRecommendations,
         getUniversityRecommendations,
+        getUniversityDetails,
       }}
     >
       {children}
