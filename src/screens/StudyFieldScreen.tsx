@@ -27,9 +27,9 @@ export const StudyFieldScreen: React.FC = () => {
   const { toast } = useToast();
   const {
     orientationSurveyIndex,
+    userData,
     surveyAnswers,
     studyFieldRecommendations,
-    studyProgramRecommendations,
     setOrientationSurveyIndex,
     setUserData,
     setProgress,
@@ -44,6 +44,12 @@ export const StudyFieldScreen: React.FC = () => {
   }, []);
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [studyField, setStudyField] = useState<string>('');
+
+  const handleSelect = (index: number, studyField: string) => {
+    setSelectedIndex(index);
+    setStudyField(studyField);
+  };
 
   const handleNext = () => {
     if (selectedIndex === -1) {
@@ -53,20 +59,17 @@ export const StudyFieldScreen: React.FC = () => {
       return;
     }
 
-    if (studyProgramRecommendations.length > 0) {
+    if (userData.studyFieldChoice === studyField) {
       setProgress(16);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
       setUserData((prev) => ({
         ...prev,
-        studyFieldChoice: studyFieldRecommendations[selectedIndex].study_field,
+        studyFieldChoice: studyField,
       }));
       setProgress(16);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
-      getStudyProgramRecommendations(
-        studyFieldRecommendations[selectedIndex].study_field,
-        surveyAnswers
-      );
+      getStudyProgramRecommendations(studyField, surveyAnswers);
     }
   };
 
@@ -80,45 +83,50 @@ export const StudyFieldScreen: React.FC = () => {
       <div className='flex flex-col justify-center w-full h-full items-center gap-y-10'>
         {/* Recommendations Container */}
         <div className='flex lg:flex-row flex-col gap-x-8'>
-          {studyFieldRecommendations.map((recommendation, index) => (
-            <div
-              key={index}
-              className='flex flex-col justify-center items-center'
-            >
-              <button
-                className={`border-2 rounded-xl w-[13.5rem] lg:h-[16rem] h-[8rem] hover:border-black ${
-                  selectedIndex === index ? 'border-black' : ''
-                } flex flex-col justify-center items-center relative`}
-                onClick={() => setSelectedIndex(index)}
+          {studyFieldRecommendations.map((studyField, index) => {
+            const { study_field, reason } = studyField;
+
+            return (
+              <div
+                key={index}
+                className='flex flex-col justify-center items-center'
               >
-                <Tooltip
-                  reasonText={recommendation.reason}
-                  containerStyle='absolute top-3 right-3'
-                  tooltipStyle='absolute -top-[5.5rem] -right-[6rem]'
-                />
-                <img
-                  src={getImage(recommendation.study_field)}
-                  width={150}
-                  height={150}
-                ></img>
-              </button>
-              <h3 className='font-coolvetica font-bold lg:text-lg text-md'>
-                {recommendation.study_field}
-              </h3>
-            </div>
-          ))}
+                <button
+                  className={`border-2 rounded-xl w-[13.5rem] lg:h-[16rem] h-[8rem] hover:border-black ${
+                    selectedIndex === index ? 'border-black' : ''
+                  } flex flex-col justify-center items-center relative`}
+                  onClick={() => handleSelect(index, study_field)}
+                >
+                  <Tooltip
+                    reasonText={reason}
+                    containerStyle='absolute top-3 right-3'
+                    tooltipStyle='absolute -top-[5.5rem] -right-[6rem]'
+                  />
+                  <img
+                    src={getImage(study_field)}
+                    width={150}
+                    height={150}
+                  ></img>
+                </button>
+                <h3 className='font-coolvetica font-bold lg:text-lg text-md'>
+                  {study_field}
+                </h3>
+              </div>
+            );
+          })}
         </div>
+      </div>
+
+      {/* Navigation Button */}
+      <div className='flex flex-row justify-center w-full'>
         <button
-          className='bg-black rounded-2xl w-[20rem] h-[2.5rem] flex flex-row justify-center items-center'
+          className='bg-black rounded-2xl w-[22rem] h-[2.5rem] flex flex-row justify-center items-center gap-x-2'
           onClick={() => handleNext()}
         >
           <h3 className='font-coolvetica font-normal text-md text-white'>
             Next
           </h3>
-          <FontAwesomeIcon
-            icon={faArrowRight}
-            className='text-white text-sm ml-1'
-          />
+          <FontAwesomeIcon icon={faArrowRight} className='text-white text-sm' />
         </button>
       </div>
       <Toaster />

@@ -78,6 +78,7 @@ export interface UserData {
 
 export interface IOrientationSurveyContext {
   orientationSurveyIndex: number;
+  previousOrientationSurveyIndex: number;
   progress: number;
   loading: boolean;
   userData: {
@@ -91,10 +92,14 @@ export interface IOrientationSurveyContext {
   surveyAnswers: SurveyAnswers;
   studyFieldRecommendations: StudyFieldRecommendation[];
   studyProgramRecommendations: StudyProgramRecommendation[];
+  countryRecommendations: string[][];
   cityRecommendations: CityRecommendation[];
   universityRecommendations: UniversityRecommendation[];
   universityDetails: UniversityDetails;
   setOrientationSurveyIndex: React.Dispatch<React.SetStateAction<number>>;
+  setPreviousOrientationSurveyIndex: React.Dispatch<
+    React.SetStateAction<number>
+  >;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setUserData: React.Dispatch<React.SetStateAction<UserData>>;
@@ -105,6 +110,7 @@ export interface IOrientationSurveyContext {
   setStudyProgramRecommendations: React.Dispatch<
     React.SetStateAction<StudyProgramRecommendation[]>
   >;
+  setCountryRecommendations: React.Dispatch<React.SetStateAction<string[][]>>;
   setCityRecommendations: React.Dispatch<
     React.SetStateAction<CityRecommendation[]>
   >;

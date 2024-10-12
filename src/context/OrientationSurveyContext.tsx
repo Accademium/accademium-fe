@@ -16,6 +16,7 @@ import { getQuestions, getStudyFields, getJsonRegex } from '@/utils';
 export const OrientationSurveyContext =
   createContext<IOrientationSurveyContext>({
     orientationSurveyIndex: 0,
+    previousOrientationSurveyIndex: 0,
     progress: 0,
     loading: false,
     userData: {
@@ -40,6 +41,7 @@ export const OrientationSurveyContext =
     },
     studyFieldRecommendations: [],
     studyProgramRecommendations: [],
+    countryRecommendations: [],
     cityRecommendations: [],
     universityRecommendations: [],
     universityDetails: {
@@ -68,12 +70,14 @@ export const OrientationSurveyContext =
       },
     },
     setOrientationSurveyIndex: () => {},
+    setPreviousOrientationSurveyIndex: () => {},
     setProgress: () => {},
     setLoading: () => {},
     setUserData: () => {},
     setSurveyAnswers: () => {},
     setStudyFieldRecommendations: () => {},
     setStudyProgramRecommendations: () => {},
+    setCountryRecommendations: () => {},
     setCityRecommendations: () => {},
     setUniversityRecommendations: () => {},
     setUniversityDetails: () => {},
@@ -88,7 +92,9 @@ export const OrientationSurveyProvider: React.FC<{
   children: React.ReactElement;
 }> = ({ children }) => {
   const [orientationSurveyIndex, setOrientationSurveyIndex] =
-    useState<number>(6);
+    useState<number>(0);
+  const [previousOrientationSurveyIndex, setPreviousOrientationSurveyIndex] =
+    useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -105,8 +111,8 @@ export const OrientationSurveyProvider: React.FC<{
       adversityHandling: '',
       workLifeBalance: '',
     },
-    studyFieldChoice: 'Language & Communication',
-    studyProgramChoice: 'Communication Studies',
+    studyFieldChoice: '',
+    studyProgramChoice: '',
     countryChoice: '',
     cityChoice: '',
     universityChoice: '',
@@ -131,125 +137,69 @@ export const OrientationSurveyProvider: React.FC<{
   const [studyProgramRecommendations, setStudyProgramRecommendations] =
     useState<StudyProgramRecommendation[]>([]);
 
+  const [countryRecommendations, setCountryRecommendations] = useState<
+    string[][]
+  >([
+    [
+      '../../images/Flag_of_Germany.svg',
+      'Germany',
+      'Germany is known for its rich history, cultural heritage, and leading role in automotive engineering, technology, and innovation.',
+    ],
+    [
+      '../../images/Flag_of_the_Netherlands.svg',
+      'Netherlands',
+      'Netherlands is celebrated for its progressive policies, picturesque landscapes, and strong emphasis on sustainable living and cycling culture.',
+    ],
+    [
+      '../../images/Flag_of_Austria.svg',
+      'Austria',
+      'Austria is renowned for its stunning alpine scenery, classical music heritage, and contributions to art and culture.',
+    ],
+
+    [
+      '../../images/Flag_of_the_Switzerland.svg',
+      'Switzerland',
+      'Switzerland is famous for its breathtaking landscapes, exceptional quality of life, and expertise in finance, precision engineering, and watchmaking.',
+    ],
+    [
+      '../../images/Flag_of_England.svg',
+      'England',
+      'England is a country with a deep historical legacy, influential cultural exports, and a global impact through literature, science, and industry.',
+    ],
+  ]);
+
   const [cityRecommendations, setCityRecommendations] = useState<
     CityRecommendation[]
-  >([
-    {
-      city_name: 'Amsterdam',
-      description:
-        'Amsterdam is a vibrant city known for its historic canals, diverse culture, and renowned museums, making it a hub of art and commerce.',
-      ratings: {
-        housing_availability: 3.0,
-        nightlife: 5.0,
-        societal_inclusion: 4.5,
-        work_opportunities: 4.5,
-        safety: 3.5,
-      },
-    },
-    {
-      city_name: 'Utrecht',
-      description:
-        'Utrecht is a charming city with a medieval old town, lively student population, and a strong focus on sustainability and innovation.',
-      ratings: {
-        housing_availability: 3.5,
-        nightlife: 4.0,
-        societal_inclusion: 4.0,
-        work_opportunities: 4.0,
-        safety: 4.0,
-      },
-    },
-    {
-      city_name: 'Rotterdam',
-      description:
-        'Rotterdam is a modern city known for its impressive architecture, bustling port, and a dynamic cultural scene.',
-      ratings: {
-        housing_availability: 4.0,
-        nightlife: 4.5,
-        societal_inclusion: 4.0,
-        work_opportunities: 4.5,
-        safety: 3.5,
-      },
-    },
-    {
-      city_name: 'Leiden',
-      description:
-        'Leiden is a picturesque city with a rich history, home to one of the oldest universities in the Netherlands, and a vibrant student life.',
-      ratings: {
-        housing_availability: 3.5,
-        nightlife: 3.5,
-        societal_inclusion: 4.5,
-        work_opportunities: 3.5,
-        safety: 4.5,
-      },
-    },
-    {
-      city_name: 'Groningen',
-      description:
-        'Groningen is a youthful city with a large student population, known for its lively cultural scene and innovative spirit.',
-      ratings: {
-        housing_availability: 4.0,
-        nightlife: 4.5,
-        societal_inclusion: 4.5,
-        work_opportunities: 3.5,
-        safety: 4.0,
-      },
-    },
-  ]);
+  >([]);
 
   const [universityRecommendations, setUniversityRecommendations] = useState<
     UniversityRecommendation[]
-  >([
-    {
-      university_name: 'University of Amsterdam',
-      short_description:
-        'The University of Amsterdam is a public university located in Amsterdam, Netherlands, known for its rich history and diverse student body.',
-      long_description:
-        "The University of Amsterdam, established in 1632, is the third-oldest university in the Netherlands. It is one of the largest research universities in Europe with 30,000 students, 5,000 staff and 285 study programs. The university's Communication and Media Studies program is ranked among the top in the world.",
-    },
-    {
-      university_name: 'VU University Amsterdam',
-      short_description:
-        'VU University Amsterdam is a state-funded university with a distinct social and scientific vision.',
-      long_description:
-        "VU University Amsterdam, founded in 1880, offers a variety of study programs in different fields. The university's Communication Science program provides students with a thorough understanding of the field of communication, preparing them for careers in a wide range of sectors. The university is committed to making a significant contribution to a sustainable society.",
-    },
-  ]);
+  >([]);
 
   const [universityDetails, setUniversityDetails] = useState<UniversityDetails>(
     {
-      name: 'VU University Amsterdam',
-      short_description:
-        'VU University Amsterdam is renowned for its research and academic excellence, consistently ranking among the top 150 universities worldwide in the Times Higher Education World University Rankings.',
-      ranking: '#138 in Europe University Rankings - TopUniversities (2024)',
+      name: '',
+      short_description: '',
+      ranking: '',
       contactInfo: {
-        phone: '+31 20 598 9898',
-        email: 'info@vu.nl',
+        phone: '',
+        email: '',
       },
       addressInfo: {
-        campusLocation: 'De Boelelaan 1105, 1081 HV',
-        globeLocation: 'Amsterdam, Netherlands',
+        campusLocation: '',
+        globeLocation: '',
       },
       tuitionFee: {
-        eu_students: '€2,314',
-        non_eu_students: '€11,200',
+        eu_students: '',
+        non_eu_students: '',
       },
-      programInfo:
-        'bachelor • full-time • 3 years • 180 ECTS • Start: September 2024',
-      programDetails: [
-        'The Communication Studies program at VU University Amsterdam offers a comprehensive understanding of communication processes in various contexts. It combines theoretical knowledge with practical skills, preparing students for diverse roles in media, corporate communication, and public relations. The program emphasizes critical thinking, media literacy, and effective communication strategies.',
-        "In the initial phase, students are introduced to fundamental concepts of communication, including media theories, communication models, and the role of communication in society. Courses focus on developing analytical skills and understanding the impact of media on public opinion and behavior. Practical workshops enhance students' ability to create and analyze media content.",
-        'The second phase delves deeper into communication research methods and media production techniques. Students explore digital communication, audience analysis, and strategic communication planning. Collaborative projects and case studies provide hands-on experience in designing communication campaigns and evaluating their effectiveness in real-world scenarios.',
-        'In the advanced stage, students specialize in areas such as intercultural communication, corporate communication, or media management. The curriculum includes advanced seminars, group projects, and internships, allowing students to apply their knowledge in professional settings. Emphasis is placed on ethical communication practices and leadership skills.',
-        'The final phase focuses on a capstone project where students conduct independent research or develop a comprehensive communication plan for a client. This phase integrates all learned skills and knowledge, preparing students for the transition to professional roles. Students also have opportunities to study abroad or participate in exchange programs.',
-        "Graduates of the Communication Studies program are well-equipped for careers in media, public relations, marketing, and corporate communication. They can pursue roles such as communication specialists, media analysts, public relations officers, and digital marketing strategists. The program's strong emphasis on analytical and practical skills ensures graduates are competitive in the global job market.",
-      ],
+      programInfo: '',
+      programDetails: ['', '', '', '', '', ''],
       enrollmentDetails: {
-        eu_students: '01 May 2024',
-        non_eu_students: '01 April 2024',
-        eligibility_criteria:
-          'Applicants must have a high school diploma equivalent to the Dutch VWO. A strong background in social sciences or humanities is recommended. Prior coursework in communication, media studies, or related fields is advantageous but not mandatory.',
-        language_requirements:
-          "Non-EU students must demonstrate proficiency in English. A minimum CEFR level of B2 is required, or an IELTS score of 6.5, or a TOEFL score of 90. These requirements ensure students can effectively engage with the program's academic content.",
+        eu_students: '',
+        non_eu_students: '',
+        eligibility_criteria: '',
+        language_requirements: '',
       },
     }
   );
@@ -711,22 +661,26 @@ export const OrientationSurveyProvider: React.FC<{
     <OrientationSurveyContext.Provider
       value={{
         orientationSurveyIndex,
+        previousOrientationSurveyIndex,
         progress,
         loading,
         userData,
         surveyAnswers,
         studyFieldRecommendations,
         studyProgramRecommendations,
+        countryRecommendations,
         cityRecommendations,
         universityRecommendations,
         universityDetails,
         setOrientationSurveyIndex,
+        setPreviousOrientationSurveyIndex,
         setProgress,
         setLoading,
         setUserData,
         setSurveyAnswers,
         setStudyFieldRecommendations,
         setStudyProgramRecommendations,
+        setCountryRecommendations,
         setCityRecommendations,
         setUniversityRecommendations,
         setUniversityDetails,

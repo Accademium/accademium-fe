@@ -91,7 +91,7 @@ export const UniversityDetailsScreen: React.FC = () => {
     <>
       {/* Main Container */}
       <div className='flex flex-col justify-center items-center h-full mx-auto'>
-        {/* University Details Container */}
+        {/* Dashboard Container */}
         <div className='border-2 rounded-3xl flex flex-row items-center border-gray h-[28rem] w-[80rem]'>
           {/* University Info Container */}
           <div className='flex flex-col justify-between w-[36rem] h-full px-5 py-4'>

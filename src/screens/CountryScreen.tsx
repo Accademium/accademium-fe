@@ -11,40 +11,13 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import Tooltip from '../components/Tooltip';
 
-const countryData = [
-  [
-    '../../images/Flag_of_Germany.svg',
-    'Germany',
-    'Germany is known for its rich history, cultural heritage, and leading role in automotive engineering, technology, and innovation.',
-  ],
-  [
-    '../../images/Flag_of_the_Netherlands.svg',
-    'Netherlands',
-    'Netherlands is celebrated for its progressive policies, picturesque landscapes, and strong emphasis on sustainable living and cycling culture.',
-  ],
-  [
-    '../../images/Flag_of_Austria.svg',
-    'Austria',
-    'Austria is renowned for its stunning alpine scenery, classical music heritage, and contributions to art and culture.',
-  ],
-
-  [
-    '../../images/Flag_of_the_Switzerland.svg',
-    'Switzerland',
-    'Switzerland is famous for its breathtaking landscapes, exceptional quality of life, and expertise in finance, precision engineering, and watchmaking.',
-  ],
-  [
-    '../../images/Flag_of_England.svg',
-    'England',
-    'England is a country with a deep historical legacy, influential cultural exports, and a global impact through literature, science, and industry.',
-  ],
-];
-
 export const CountryScreen: React.FC<{}> = () => {
   const { toast } = useToast();
   const {
     orientationSurveyIndex,
+    userData,
     progress,
+    countryRecommendations,
     setOrientationSurveyIndex,
     setUserData,
     setProgress,
@@ -80,13 +53,18 @@ export const CountryScreen: React.FC<{}> = () => {
       return;
     }
 
-    setUserData((prev) => ({
-      ...prev,
-      countryChoice: country,
-    }));
-    setProgress(progress + 16);
-    setOrientationSurveyIndex(orientationSurveyIndex + 1);
-    getCityRecommendations(country);
+    if (userData.countryChoice === country) {
+      setProgress(progress + 16);
+      setOrientationSurveyIndex(orientationSurveyIndex + 1);
+    } else {
+      setUserData((prev) => ({
+        ...prev,
+        countryChoice: country,
+      }));
+      setProgress(progress + 16);
+      setOrientationSurveyIndex(orientationSurveyIndex + 1);
+      getCityRecommendations(country);
+    }
   };
 
   return (
@@ -97,20 +75,20 @@ export const CountryScreen: React.FC<{}> = () => {
         <div className='flex flex-row justify-center items-center w-full gap-x-4'>
           {/* Country Selection Container  */}
           <div className='flex flex-col border-2 rounded-2xl '>
-            {countryData.map((data, index) => {
+            {countryRecommendations.map((country, index) => {
               return (
                 <button
                   key={index}
                   className={`border-2 rounded-xl border-gray w-[18rem] h-[60px] flex flex-row justify-between items-center px-4 hover:border-black relative 
                   ${selected === index ? 'border-black' : ''} `}
-                  onClick={() => handleSelect(index, data[1])}
+                  onClick={() => handleSelect(index, country[1])}
                 >
                   <div className='flex flex-row items-center gap-x-4'>
-                    <img src={data[0]} width={30} height={30} />
-                    <h3 className='font-coolvetica font-bold'>{data[1]}</h3>
+                    <img src={country[0]} width={30} height={30} />
+                    <h3 className='font-coolvetica font-bold'>{country[1]}</h3>
                   </div>
                   <Tooltip
-                    reasonText={data[2]}
+                    reasonText={country[2]}
                     tooltipStyle='absolute -top-[3.5rem] -right-[3rem]'
                   ></Tooltip>
                 </button>

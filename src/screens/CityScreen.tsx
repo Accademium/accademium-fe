@@ -54,13 +54,18 @@ export const CityScreen: React.FC<{}> = () => {
       return;
     }
 
-    setUserData((prev) => ({
-      ...prev,
-      cityChoice: city,
-    }));
-    setProgress(progress + 16);
-    setOrientationSurveyIndex(orientationSurveyIndex + 1);
-    getUniversityRecommendations(city, userData.studyProgramChoice);
+    if (userData.cityChoice === city) {
+      setProgress(progress + 16);
+      setOrientationSurveyIndex(orientationSurveyIndex + 1);
+    } else {
+      setUserData((prev) => ({
+        ...prev,
+        cityChoice: city,
+      }));
+      setProgress(progress + 16);
+      setOrientationSurveyIndex(orientationSurveyIndex + 1);
+      getUniversityRecommendations(city, userData.studyProgramChoice);
+    }
   };
 
   return (

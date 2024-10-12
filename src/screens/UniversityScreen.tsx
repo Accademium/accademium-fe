@@ -46,13 +46,18 @@ export const UniversityScreen: React.FC<{}> = () => {
       return;
     }
 
-    setUserData((prev) => ({
-      ...prev,
-      universityChoice: university,
-    }));
-    setProgress(progress + 16);
-    setOrientationSurveyIndex(orientationSurveyIndex + 1);
-    getUniversityDetails(university, userData.studyProgramChoice);
+    if (userData.universityChoice === university) {
+      setProgress(progress + 16);
+      setOrientationSurveyIndex(orientationSurveyIndex + 1);
+    } else {
+      setUserData((prev) => ({
+        ...prev,
+        universityChoice: university,
+      }));
+      setProgress(progress + 16);
+      setOrientationSurveyIndex(orientationSurveyIndex + 1);
+      getUniversityDetails(university, userData.studyProgramChoice);
+    }
   };
 
   return (
@@ -95,7 +100,7 @@ export const UniversityScreen: React.FC<{}> = () => {
                 </div>
 
                 {/* University Description */}
-                <div className='h-[12rem] p-1'>
+                <div className='h-[12rem] p-1 flex flex-col justify-center items-center'>
                   <p className='font-coolvetica font-normal text-sm'>
                     {long_description}
                   </p>

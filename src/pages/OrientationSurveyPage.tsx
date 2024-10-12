@@ -4,7 +4,6 @@ import { getQuestionsAndAnswers } from '../utils';
 
 import { OrientationSurveyContext } from '@/context/OrientationSurveyContext';
 
-import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
@@ -28,6 +27,7 @@ import { CountryScreen } from '@/screens/CountryScreen';
 import { CityScreen } from '@/screens/CityScreen';
 import { UniversityScreen } from '@/screens/UniversityScreen';
 import { UniversityDetailsScreen } from '@/screens/UniversityDetailsScreen';
+import { DashboardScreen } from '@/screens/DashboardScreen';
 
 const screenTitles = new Map<number, string>([
   [1, 'The study fields that align the best with your interest and strengths'],
@@ -45,23 +45,25 @@ const screenTitles = new Map<number, string>([
 ]);
 
 const OrientationSurveyPage: React.FC = () => {
-  const { toast } = useToast();
   const {
     orientationSurveyIndex,
+    previousOrientationSurveyIndex,
     progress,
     loading,
     studyFieldRecommendations,
     setSurveyAnswers,
     setStudyFieldRecommendations,
     setOrientationSurveyIndex,
+    setPreviousOrientationSurveyIndex,
   } = useContext(OrientationSurveyContext);
 
   const handleDashboard = () => {
-    toast({
-      title: 'Go to Dashboard',
-      description:
-        'The go to dashboard feature is currently under development. Please check back later.',
-    });
+    if (orientationSurveyIndex === 7) {
+      setOrientationSurveyIndex(previousOrientationSurveyIndex);
+    } else {
+      setPreviousOrientationSurveyIndex(orientationSurveyIndex);
+      setOrientationSurveyIndex(7);
+    }
   };
 
   const handleRetry = () => {
@@ -107,7 +109,11 @@ const OrientationSurveyPage: React.FC = () => {
               <div className='flex gap-x-2 absolute lg:right-[4rem]'>
                 <button onClick={() => handleDashboard()}>
                   <img
-                    src='../../images/dashboard_icon.png'
+                    src={`${
+                      orientationSurveyIndex !== 7
+                        ? '../../images/dashboard_icon.png'
+                        : '../../images/return_icon.png'
+                    }`}
                     width={35}
                     height={35}
                   ></img>
@@ -150,13 +156,15 @@ const OrientationSurveyPage: React.FC = () => {
           )}
 
           {/* Screen Title */}
-          {orientationSurveyIndex !== 0 && !loading && (
-            <div className='w-[48rem] h-[7rem] mx-auto flex flex-row justify-center items-center mt-4'>
-              <h1 className='font-coolvetica font-bold text-4xl text-center'>
-                {screenTitles.get(orientationSurveyIndex)}
-              </h1>
-            </div>
-          )}
+          {orientationSurveyIndex !== 0 &&
+            orientationSurveyIndex !== 7 &&
+            !loading && (
+              <div className='w-[48rem] h-[7rem] mx-auto flex flex-row justify-center items-center mt-4'>
+                <h1 className='font-coolvetica font-bold text-4xl text-center'>
+                  {screenTitles.get(orientationSurveyIndex)}
+                </h1>
+              </div>
+            )}
 
           {/* Loading Spinner */}
           {loading && (
@@ -211,6 +219,13 @@ const OrientationSurveyPage: React.FC = () => {
           {orientationSurveyIndex == 6 && !loading && (
             <>
               <UniversityDetailsScreen />
+            </>
+          )}
+
+          {/* Dashboard Screen */}
+          {orientationSurveyIndex == 7 && !loading && (
+            <>
+              <DashboardScreen />
             </>
           )}
         </main>
