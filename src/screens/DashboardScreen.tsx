@@ -16,6 +16,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { OrientationSurveyContext } from '@/context/OrientationSurveyContext';
+import { UserData } from '@/types';
 
 const MenuButton = ({
   icon,
@@ -54,6 +55,7 @@ export const DashboardScreen: React.FC = () => {
     countryRecommendations,
     cityRecommendations,
     universityRecommendations,
+    universityDetails,
   } = useContext(OrientationSurveyContext);
 
   const menuItemsSection1 = [
@@ -122,6 +124,17 @@ export const DashboardScreen: React.FC = () => {
     { label: 'Approved', count: 0 },
     { label: 'Completed', count: 0 },
   ];
+
+  const isUserDataFull = (userData: UserData): boolean => {
+    return Object.values(userData).every((value) => {
+      // If the value is an object, recursively check its entries
+      if (typeof value === 'object' && value !== null) {
+        return isUserDataFull(value);
+      }
+      // If it's a string, check if it's not empty or just whitespace
+      return typeof value === 'string' && value.trim() !== '';
+    });
+  };
 
   return (
     <div className='flex flex-col justify-center items-center h-full mx-auto'>
@@ -241,7 +254,7 @@ export const DashboardScreen: React.FC = () => {
           {/* Display Section */}
           <div className='flex flex-row gap-x-6 mt-6 gap-y-6 w-full flex-wrap'>
             {/* APPLICATIONS */}
-            {selectedCategoryIndex == 0 && (
+            {selectedCategoryIndex == 0 && isUserDataFull(userData) && (
               <>
                 {/* Display Card */}
                 <div className='bg-white rounded-2xl w-[16rem] h-[10.5rem] p-4'>
@@ -261,7 +274,7 @@ export const DashboardScreen: React.FC = () => {
                     </h4>
                     {/* Program Duration */}
                     <h4 className='font-coolvetica font-normal text-xs'>
-                      September 2024 - July 2025
+                      {universityDetails.programInfo.split('•').pop()}
                     </h4>
                   </div>
 
@@ -297,7 +310,7 @@ export const DashboardScreen: React.FC = () => {
                       key={index}
                       className='bg-white rounded-2xl w-[16rem] h-[10.5rem] p-4'
                     >
-                      {/* Study Program */}
+                      {/* Study Field */}
                       <h3 className='font-coolvetica font-bold text-sm'>
                         {study_field.study_field}
                       </h3>
@@ -328,7 +341,7 @@ export const DashboardScreen: React.FC = () => {
               </>
             )}
 
-            {/* CITIES */}
+            {/* COUNTRIES */}
             {selectedCategoryIndex == 4 && (
               <>
                 {countryRecommendations.map((country, index) => {
@@ -337,7 +350,7 @@ export const DashboardScreen: React.FC = () => {
                       key={index}
                       className='bg-white rounded-2xl w-[16rem] h-[10.5rem] p-4'
                     >
-                      {/* Study Program */}
+                      {/* Country */}
                       <h3 className='font-coolvetica font-bold text-sm'>
                         {country[1]}
                       </h3>
@@ -356,7 +369,7 @@ export const DashboardScreen: React.FC = () => {
                       key={index}
                       className='bg-white rounded-2xl w-[16rem] h-[10.5rem] p-4'
                     >
-                      {/* Study Program */}
+                      {/* City */}
                       <h3 className='font-coolvetica font-bold text-sm'>
                         {city.city_name}
                       </h3>

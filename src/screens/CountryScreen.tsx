@@ -41,7 +41,7 @@ export const CountryScreen: React.FC<{}> = () => {
   };
 
   const handlePrevious = () => {
-    setProgress(progress - 16);
+    setProgress(progress - 16.667);
     setOrientationSurveyIndex(orientationSurveyIndex - 1);
   };
 
@@ -54,14 +54,14 @@ export const CountryScreen: React.FC<{}> = () => {
     }
 
     if (userData.countryChoice === country) {
-      setProgress(progress + 16);
+      setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
       setUserData((prev) => ({
         ...prev,
         countryChoice: country,
       }));
-      setProgress(progress + 16);
+      setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
       getCityRecommendations(country);
     }

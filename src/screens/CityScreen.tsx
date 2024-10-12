@@ -42,7 +42,7 @@ export const CityScreen: React.FC<{}> = () => {
   };
 
   const handlePrevious = () => {
-    setProgress(progress - 16);
+    setProgress(progress - 16.667);
     setOrientationSurveyIndex(orientationSurveyIndex - 1);
   };
 
@@ -55,14 +55,14 @@ export const CityScreen: React.FC<{}> = () => {
     }
 
     if (userData.cityChoice === city) {
-      setProgress(progress + 16);
+      setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
       setUserData((prev) => ({
         ...prev,
         cityChoice: city,
       }));
-      setProgress(progress + 16);
+      setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
       getUniversityRecommendations(city, userData.studyProgramChoice);
     }

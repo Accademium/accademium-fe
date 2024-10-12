@@ -60,14 +60,14 @@ export const StudyFieldScreen: React.FC = () => {
     }
 
     if (userData.studyFieldChoice === studyField) {
-      setProgress(16);
+      setProgress(16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
       setUserData((prev) => ({
         ...prev,
         studyFieldChoice: studyField,
       }));
-      setProgress(16);
+      setProgress(16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
       getStudyProgramRecommendations(studyField, surveyAnswers);
     }

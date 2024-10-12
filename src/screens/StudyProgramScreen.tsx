@@ -32,7 +32,7 @@ export const StudyProgramScreen: React.FC<{}> = () => {
   };
 
   const handlePrevious = () => {
-    setProgress(progress - 16);
+    setProgress(progress - 16.667);
     setOrientationSurveyIndex(orientationSurveyIndex - 1);
   };
 
@@ -45,14 +45,14 @@ export const StudyProgramScreen: React.FC<{}> = () => {
     }
 
     if (userData.studyProgramChoice === studyProgram) {
-      setProgress(progress + 16);
+      setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
       setUserData((prev) => ({
         ...prev,
         studyProgramChoice: studyProgram,
       }));
-      setProgress(progress + 16);
+      setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     }
   };

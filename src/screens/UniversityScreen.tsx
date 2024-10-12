@@ -34,7 +34,7 @@ export const UniversityScreen: React.FC<{}> = () => {
   };
 
   const handlePrevious = () => {
-    setProgress(progress - 16);
+    setProgress(progress - 16.667);
     setOrientationSurveyIndex(orientationSurveyIndex - 1);
   };
 
@@ -47,14 +47,14 @@ export const UniversityScreen: React.FC<{}> = () => {
     }
 
     if (userData.universityChoice === university) {
-      setProgress(progress + 16);
+      setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
       setUserData((prev) => ({
         ...prev,
         universityChoice: university,
       }));
-      setProgress(progress + 16);
+      setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
       getUniversityDetails(university, userData.studyProgramChoice);
     }
@@ -80,7 +80,7 @@ export const UniversityScreen: React.FC<{}> = () => {
               } `}
               >
                 {/* University Title + University Logo */}
-                <div className='flex flex-col justify-center gap-y-4 h-[14rem]'>
+                <div className='flex flex-col justify-center gap-y-4 h-[12rem]'>
                   <div className='flex flex-row justify-between w-full relative'>
                     <h3 className='font-coolvetica font-bold text-lg text-left leading-none'>
                       {university_name}

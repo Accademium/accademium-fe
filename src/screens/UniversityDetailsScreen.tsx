@@ -37,6 +37,7 @@ export const UniversityDetailsScreen: React.FC = () => {
     userData,
     universityDetails,
     setOrientationSurveyIndex,
+    setPreviousOrientationSurveyIndex,
     setProgress,
   } = useContext(OrientationSurveyContext);
 
@@ -44,12 +45,14 @@ export const UniversityDetailsScreen: React.FC = () => {
   const [enrollmentInfoIndex, setEnrollmentInfoIndex] = useState<number>(0);
 
   const handlePrevious = () => {
-    setProgress(progress - 16);
+    setProgress(progress - 16.667);
     setOrientationSurveyIndex(orientationSurveyIndex - 1);
   };
 
   const handleNext = () => {
-    console.log('Apply button pressed!');
+    setProgress(progress + 16.667);
+    setPreviousOrientationSurveyIndex(orientationSurveyIndex);
+    setOrientationSurveyIndex(orientationSurveyIndex + 1);
   };
 
   const handlePreviousStudyInfo = () => {

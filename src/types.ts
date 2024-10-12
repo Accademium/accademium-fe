@@ -82,7 +82,18 @@ export interface IOrientationSurveyContext {
   progress: number;
   loading: boolean;
   userData: {
-    surveyResponses: {};
+    surveyResponses: {
+      careerInterests: string;
+      workEnvironment: string;
+      problemSolving: string;
+      skillsDevelopment: string;
+      taskPreference: string;
+      learningPreference: string;
+      careerGoals: string;
+      careerMotivation: string;
+      adversityHandling: string;
+      workLifeBalance: string;
+    };
     studyFieldChoice: string;
     studyProgramChoice: string;
     countryChoice: string;
