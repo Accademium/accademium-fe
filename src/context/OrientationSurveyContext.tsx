@@ -103,7 +103,7 @@ export const OrientationSurveyProvider: React.FC<{
   children: React.ReactElement;
 }> = ({ children }) => {
   const [orientationSurveyIndex, setOrientationSurveyIndex] =
-    useState<number>(5);
+    useState<number>(1);
   const [previousOrientationSurveyIndex, setPreviousOrientationSurveyIndex] =
     useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
@@ -111,22 +111,22 @@ export const OrientationSurveyProvider: React.FC<{
 
   const [userData, setUserData] = useState<UserData>({
     surveyResponses: {
-      careerInterests: '',
-      workEnvironment: '',
-      problemSolving: '',
-      skillsDevelopment: '',
-      taskPreference: '',
-      learningPreference: '',
-      careerGoals: '',
-      careerMotivation: '',
-      adversityHandling: '',
-      workLifeBalance: '',
+      careerInterests: 'B) Engineering and Technology',
+      workEnvironment: 'D) Creative and innovative',
+      problemSolving: 'B) Hands-on experimentation and trial-and-error',
+      skillsDevelopment: 'D) Critical thinking and problem-solving abilities',
+      taskPreference: 'B) Building and designing systems',
+      learningPreference: 'B) Hands-on experimentation and projects',
+      careerGoals: 'B) Starting my own business or venture',
+      careerMotivation: 'C) Solving complex problems and challenges',
+      adversityHandling: 'D) Embrace change and adapt quicky',
+      workLifeBalance: 'D) Integrate work and personal passions seamlessly',
     },
-    studyFieldChoice: '',
-    studyProgramChoice: '',
-    countryChoice: '',
-    cityChoice: '',
-    universityChoice: '',
+    studyFieldChoice: 'Exact and Information Sciences',
+    studyProgramChoice: 'Software Development',
+    countryChoice: 'Germany',
+    cityChoice: 'Munich',
+    universityChoice: 'Technical University of Munich',
   });
 
   const [surveyAnswers, setSurveyAnswers] = useState<SurveyAnswers>({
@@ -143,10 +143,90 @@ export const OrientationSurveyProvider: React.FC<{
   });
   const [studyFieldRecommendations, setStudyFieldRecommendations] = useState<
     StudyFieldRecommendation[]
-  >([]);
+  >([
+    {
+      study_field: 'Science and Engineering',
+      reason:
+        'The individual has a primary interest in Engineering and Technology, enjoys building and designing systems, and prefers hands-on experimentation, which aligns well with Science and Engineering.',
+    },
+    {
+      study_field: 'Exact and Information Sciences',
+      reason:
+        "Given the individual's interest in solving complex problems and challenges, along with a preference for critical thinking and problem-solving, Exact and Information Sciences would be a suitable field.",
+    },
+    {
+      study_field: 'Business and Economics',
+      reason:
+        "The individual's long-term goal of starting their own business or venture suggests that knowledge in Business and Economics would be beneficial, especially when combined with their technical interests.",
+    },
+  ]);
 
   const [studyProgramRecommendations, setStudyProgramRecommendations] =
-    useState<StudyProgramRecommendation[]>([]);
+    useState<StudyProgramRecommendation[]>([
+      {
+        study_program: 'Computer Engineering',
+        reason:
+          "Aligns with the interest in Engineering and Technology and involves building and designing systems, which matches the user's preferred tasks.",
+        career_prospects:
+          'Opportunities in hardware design, embedded systems, and technology startups.',
+      },
+      {
+        study_program: 'Software Development',
+        reason:
+          "Supports the user's preference for hands-on experimentation and solving complex problems through innovative software solutions.",
+        career_prospects:
+          'Careers in software engineering, application development, and tech entrepreneurship.',
+      },
+      {
+        study_program: 'Robotics',
+        reason:
+          'Combines engineering and technology with creative and innovative work environments, ideal for those interested in building systems.',
+        career_prospects:
+          'Roles in robotics engineering, automation, and research and development.',
+      },
+      {
+        study_program: 'Data Science',
+        reason:
+          'Enhances critical thinking and problem-solving abilities, focusing on solving complex problems with data-driven solutions.',
+        career_prospects:
+          'Positions in data analysis, machine learning, and business intelligence.',
+      },
+      {
+        study_program: 'Cybersecurity',
+        reason:
+          "Addresses the user's interest in solving complex challenges and adapting quickly to new threats and technologies.",
+        career_prospects:
+          'Jobs in information security, network defense, and cybersecurity consulting.',
+      },
+      {
+        study_program: 'Artificial Intelligence',
+        reason:
+          'Involves creative problem-solving and innovation, with a focus on developing intelligent systems and technologies.',
+        career_prospects:
+          'Opportunities in AI research, machine learning engineering, and AI-driven startups.',
+      },
+      {
+        study_program: 'Game Development',
+        reason:
+          'Combines creative and innovative work with hands-on experimentation, ideal for those interested in designing interactive systems.',
+        career_prospects:
+          'Careers in game design, virtual reality development, and interactive media.',
+      },
+      {
+        study_program: 'Internet of Things',
+        reason:
+          "Focuses on building interconnected systems and devices, aligning with the user's interest in engineering and technology.",
+        career_prospects:
+          'Roles in IoT development, smart technology design, and systems integration.',
+      },
+      {
+        study_program: 'Entrepreneurship in Technology',
+        reason:
+          "Supports the user's long-term goal of starting their own business, with a focus on technology-driven ventures.",
+        career_prospects:
+          'Opportunities in tech startups, innovation management, and business development.',
+      },
+    ]);
 
   const [countryRecommendations, setCountryRecommendations] = useState<
     string[][]
@@ -181,7 +261,68 @@ export const OrientationSurveyProvider: React.FC<{
 
   const [cityRecommendations, setCityRecommendations] = useState<
     CityRecommendation[]
-  >([]);
+  >([
+    {
+      city_name: 'Berlin',
+      description:
+        'Berlin is a dynamic city known for its rich history, vibrant arts scene, and diverse cultural landscape, making it a hub for innovation and creativity.',
+      ratings: {
+        housing_availability: 3,
+        nightlife: 5,
+        societal_inclusion: 4.5,
+        work_opportunities: 4.5,
+        safety: 3.5,
+      },
+    },
+    {
+      city_name: 'Munich',
+      description:
+        'Munich is a city famous for its beautiful architecture, rich Bavarian culture, and strong economy, offering a blend of tradition and modernity.',
+      ratings: {
+        housing_availability: 2.5,
+        nightlife: 4,
+        societal_inclusion: 4,
+        work_opportunities: 4.5,
+        safety: 4.5,
+      },
+    },
+    {
+      city_name: 'Heidelberg',
+      description:
+        'Heidelberg is a picturesque city known for its historic university, charming old town, and scenic location along the Neckar River.',
+      ratings: {
+        housing_availability: 3.5,
+        nightlife: 3,
+        societal_inclusion: 4,
+        work_opportunities: 3,
+        safety: 4.5,
+      },
+    },
+    {
+      city_name: 'Hamburg',
+      description:
+        'Hamburg is a bustling port city known for its maritime heritage, vibrant music scene, and diverse cultural offerings, making it a key economic center.',
+      ratings: {
+        housing_availability: 3,
+        nightlife: 4.5,
+        societal_inclusion: 4.5,
+        work_opportunities: 4,
+        safety: 4,
+      },
+    },
+    {
+      city_name: 'Leipzig',
+      description:
+        'Leipzig is a city renowned for its rich musical heritage, vibrant arts scene, and growing reputation as a center for innovation and startups.',
+      ratings: {
+        housing_availability: 4,
+        nightlife: 4,
+        societal_inclusion: 4,
+        work_opportunities: 3.5,
+        safety: 4,
+      },
+    },
+  ]);
 
   const [universityRecommendations, setUniversityRecommendations] = useState<
     UniversityRecommendation[]

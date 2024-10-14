@@ -4,6 +4,7 @@ import { getQuestionsAndAnswers } from '../utils';
 
 import { OrientationSurveyContext } from '@/context/OrientationSurveyContext';
 
+import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
@@ -44,7 +45,18 @@ const screenTitles = new Map<number, string>([
   [6, 'The selected university that offers the study programme'],
 ]);
 
+const progressValueToMax = new Map<number, number[]>([
+  [1, [100, 200]],
+  [2, [300, 500]],
+  [3, [600, 750]],
+  [4, [1000, 1250]],
+  [5, [1500, 2500]],
+  [6, [2500, 5000]],
+]);
+
 const OrientationSurveyPage: React.FC = () => {
+  const { toast } = useToast();
+
   const {
     orientationSurveyIndex,
     previousOrientationSurveyIndex,
@@ -83,16 +95,51 @@ const OrientationSurveyPage: React.FC = () => {
     setOrientationSurveyIndex(0);
   };
 
+  const handleChatbot = () => {
+    toast({
+      title: 'AI Chatbot Button',
+      description:
+        'The AI chatbot is currently under development. Please check back later.',
+    });
+  };
+
   return (
     <>
       <div className='flex flex-col w-screen h-screen'>
         <header className='w-full h-[10rem] flex flex-col justify-between items-center py-12 flex-shrink-0'>
-          <img
-            className='lg:self-start lg:ml-12'
-            src='../../images/Accademium_Logo.png'
-            width={160}
-            height={24}
-          />
+          <div className='flex flex-row items-center justify-between px-14 w-full'>
+            <img
+              className='lg:self-start'
+              src='../../images/Accademium_Logo.png'
+              width={160}
+              height={24}
+            />
+            {/* Gamification Bar */}
+            {orientationSurveyIndex !== 0 && orientationSurveyIndex !== 7 && (
+              <div className='flex flex-row justify-center items-center gap-x-6 w-[48rem] h-full'>
+                <h3 className='font-coolvetica uppercase font-normal text-nowrap'>
+                  Level {orientationSurveyIndex}
+                </h3>
+                <Progress
+                  className='w-[28rem]'
+                  color='bg-[#488a77]'
+                  value={
+                    progressValueToMax.get(
+                      orientationSurveyIndex
+                    )?.[0] as number
+                  }
+                  max={progressValueToMax.get(orientationSurveyIndex)?.[1]}
+                />
+                <h3 className='font-coolvetica font-light'>
+                  {progressValueToMax.get(orientationSurveyIndex)?.[0]}
+                  <span className='text-gray-400'>
+                    {' '}
+                    / {progressValueToMax.get(orientationSurveyIndex)?.[1]} XP
+                  </span>
+                </h3>
+              </div>
+            )}
+          </div>
           <Separator className='w-[95%]' />
         </header>
 
@@ -232,6 +279,17 @@ const OrientationSurveyPage: React.FC = () => {
 
         <footer className='flex flex-col justify-center items-center w-full h-[5rem] flex-shrink-0'>
           <Separator className='w-[95%]' />
+          {orientationSurveyIndex !== 0 && (
+            <div className='absolute lg:right-[4rem] bottom-[5.25rem]'>
+              <button onClick={() => handleChatbot()}>
+                <img
+                  src={'../../images/ai_chatbot_icon.png'}
+                  width={35}
+                  height={35}
+                ></img>
+              </button>
+            </div>
+          )}
         </footer>
       </div>
       <Toaster />
