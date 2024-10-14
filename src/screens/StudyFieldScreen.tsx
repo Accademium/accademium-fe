@@ -100,7 +100,7 @@ export const StudyFieldScreen: React.FC = () => {
                   <Tooltip
                     reasonText={reason}
                     containerStyle='absolute top-3 right-3'
-                    tooltipStyle='absolute -top-[5.5rem] -right-[6rem]'
+                    tooltipStyle='absolute -top-[7.5rem] -right-[6rem]'
                   />
                   <img
                     src={getImage(study_field)}

@@ -90,7 +90,7 @@ export const CityScreen: React.FC<{}> = () => {
                   </h3>
                   <Tooltip
                     reasonText={description}
-                    tooltipStyle='absolute -top-[3.5rem] -right-[4.5rem]'
+                    tooltipStyle='absolute -top-[6rem] -right-[4.5rem]'
                   />
                 </div>
 

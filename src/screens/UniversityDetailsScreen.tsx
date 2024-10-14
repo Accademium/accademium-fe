@@ -61,8 +61,8 @@ export const UniversityDetailsScreen: React.FC = () => {
     }
   };
 
-  const handleNextStudyInfo = () => {
-    if (studyInfoIndex < 5) {
+  const handleNextStudyInfo = (studyInfoLength: number) => {
+    if (studyInfoIndex < studyInfoLength) {
       setStudyInfoIndex(studyInfoIndex + 1);
     }
   };
@@ -218,19 +218,24 @@ export const UniversityDetailsScreen: React.FC = () => {
                 {/* Study Program Details Long */}
                 <div className='flex flex-col w-full gap-y-1'>
                   <h4 className='font-coolvetica font-bold text-sm leading-none'>
-                    {programDetails[studyInfoIndex].length > 0 &&
-                      programDetailsLabels[studyInfoIndex]}
+                    {
+                      programDetailsLabels
+                        .slice(0, programDetails.length - 1)
+                        .concat(programDetailsLabels.slice(-1))[studyInfoIndex]
+                    }
                   </h4>
                   <p className='font-coolvetica font-normal text-xs leading-none'>
-                    {programDetails[studyInfoIndex].length > 0 &&
-                      programDetails[studyInfoIndex]}
+                    {programDetails[studyInfoIndex]}
                   </p>
                 </div>
 
                 {/* Study Program Details Navigation */}
                 <div className='flex flex-row justify-between items-center'>
                   {/* Go Back Button */}
-                  <button onClick={() => handlePreviousStudyInfo()}>
+                  <button
+                    onClick={() => handlePreviousStudyInfo()}
+                    disabled={studyInfoIndex == 0 ? true : false}
+                  >
                     <FontAwesomeIcon
                       icon={faChevronLeft}
                       className={`text-md ${
@@ -239,11 +244,20 @@ export const UniversityDetailsScreen: React.FC = () => {
                     />
                   </button>
                   {/* Go Next Button */}
-                  <button onClick={() => handleNextStudyInfo()}>
+                  <button
+                    onClick={() =>
+                      handleNextStudyInfo(programDetails.length - 1)
+                    }
+                    disabled={
+                      studyInfoIndex == programDetails.length - 1 ? true : false
+                    }
+                  >
                     <FontAwesomeIcon
                       icon={faChevronRight}
                       className={`text-md ${
-                        studyInfoIndex == 5 ? 'text-gray-200' : ''
+                        studyInfoIndex == programDetails.length - 1
+                          ? 'text-gray-200'
+                          : ''
                       }`}
                     />
                   </button>

@@ -103,7 +103,7 @@ export const OrientationSurveyProvider: React.FC<{
   children: React.ReactElement;
 }> = ({ children }) => {
   const [orientationSurveyIndex, setOrientationSurveyIndex] =
-    useState<number>(0);
+    useState<number>(5);
   const [previousOrientationSurveyIndex, setPreviousOrientationSurveyIndex] =
     useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
@@ -185,7 +185,22 @@ export const OrientationSurveyProvider: React.FC<{
 
   const [universityRecommendations, setUniversityRecommendations] = useState<
     UniversityRecommendation[]
-  >([]);
+  >([
+    {
+      university_name: 'Technical University of Munich',
+      short_description:
+        'Technical University of Munich is a top-ranked institution known for its excellence in research, innovation, and strong ties with industry, particularly in engineering and technology fields.',
+      long_description:
+        "Technical University of Munich (TUM) is one of Europe's leading universities, consistently ranked among the top institutions globally. Founded in 1868, TUM has a strong focus on engineering, natural sciences, life sciences, medicine, and social sciences. The university is renowned for its cutting-edge research and innovation, with numerous collaborations with industry leaders and startups. TUM's Software Development program emphasizes a blend of theoretical foundations and practical applications, preparing students for successful careers in the tech industry. The university's vibrant campus life and international community provide a dynamic environment for learning and personal growth.",
+    },
+    {
+      university_name: 'Ludwig Maximilian University of Munich',
+      short_description:
+        'Ludwig Maximilian University of Munich is a prestigious institution known for its comprehensive range of academic programs, strong research output, and a rich history of academic excellence.',
+      long_description:
+        "Ludwig Maximilian University of Munich (LMU) is one of Germany's oldest and most esteemed universities, founded in 1472. It is recognized for its broad spectrum of disciplines, from humanities and social sciences to natural sciences and medicine. LMU's commitment to research excellence is reflected in its numerous research centers and collaborations with international institutions. The university offers a robust Software Development program that integrates theoretical knowledge with practical skills, fostering innovation and critical thinking. LMU's central location in Munich, a hub for technology and innovation, provides students with ample opportunities for internships and networking with industry professionals.",
+    },
+  ]);
 
   const [universityDetails, setUniversityDetails] = useState<UniversityDetails>(
     {
@@ -493,10 +508,11 @@ export const OrientationSurveyProvider: React.FC<{
     Short description example:
     "Hanze University of Applied Sciences is a leading institution known for its practical approach to education, strong industry connections, and emphasis on innovation and entrepreneurship."
   
-    Long description example:
+    Long description example (minimum 80 words, maximum 90 words):
+    "University of Groningen is a public research university in the nort
     "University of Groningen is a public research university in the northern Netherlands and one of the most traditional and prestigious universities in the Netherlands. University of Groningen was founded in 1614, making it the second oldest in the country, after Leiden University. Notable Alumni of the University of Groningen include four Nobel Prize winners, nine Spinoza Prize winners, one Stevin Prize winner, and various members of the Dutch royal family."
   
-    Please format the response strictly in JSON without any additional text or assumptions. The JSON format should look like this:
+    Ensure that the long description for each university contains **at least 80 words but no more than 90 words**. Please format the response strictly in JSON without any additional text or assumptions. The JSON format should look like this:
   
     {
       "recommendations": [
@@ -578,17 +594,20 @@ export const OrientationSurveyProvider: React.FC<{
       - globeLocation (city, country)
     - Tuition fees for EU and non-EU students as numbers, with a euro (€) sign before the amount
     - Program information in a single string format, only stating "bachelor" or "master", followed by study format, duration, ECTS, and start date, with "ECTS" in uppercase
-    - Detailed description of the program, broken down into exactly 6 array elements:
+    - Detailed description of the program, broken down into an array with elements adjusted to the program's duration:
       - The first element should be general information about the program.
-      - The next 4 elements should describe the content of the program for each academic year, but without explicitly mentioning 'Year 1', 'Year 2', etc. Provide an elaborative description of at least 50 words per slide.
+      - For the remaining elements, if the program is 2 years long, only include descriptions for Year 1 and Year 2.
+      - If the program is 3 years long, include descriptions for Year 1, Year 2, and Year 3.
+      - If the program is 4 years long or longer, include descriptions for all 4 years.
+      - Each year’s description should be elaborative and at least 50 words, without explicitly mentioning 'Year 1', 'Year 2', etc.
       - The final element should describe career prospects for graduates, also with a minimum of 50 words.
     - Enrollment information, split into:
       - Application deadlines for the year 2024 as a **date** only, without the phrase "Application deadline:" before it (for EU and non-EU students)
       - Eligibility criteria (required diplomas, subject prerequisites)
       - Language requirements (CEFR B2 level or IELTS/TOEFL scores for non-EU students)
-  
+    
     Please format the response in JSON as follows:
-  
+    
     {
       "name": "University Name",
       "short_description": "Brief description of a notable achievement or ranking",
@@ -610,8 +629,8 @@ export const OrientationSurveyProvider: React.FC<{
         "General information about the program, elaborative and at least 50 words.",
         "Detailed description of the first year of the program, at least 50 words.",
         "Detailed description of the second year of the program, at least 50 words.",
-        "Detailed description of the third year of the program, at least 50 words.",
-        "Detailed description of the fourth year of the program, at least 50 words.",
+        "If the program is 3 years long, include: Detailed description of the third year, at least 50 words.",
+        "If the program is 4 years long, include: Detailed description of the fourth year, at least 50 words.",
         "Career prospects after graduation, including job positions and industry sectors, at least 50 words."
       ],
       "enrollmentDetails": {

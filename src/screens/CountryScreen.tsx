@@ -89,7 +89,7 @@ export const CountryScreen: React.FC<{}> = () => {
                   </div>
                   <Tooltip
                     reasonText={country[2]}
-                    tooltipStyle='absolute -top-[3.5rem] -right-[3rem]'
+                    tooltipStyle='absolute -top-[5.5rem] -right-[3rem]'
                   ></Tooltip>
                 </button>
               );

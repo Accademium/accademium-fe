@@ -87,7 +87,7 @@ export const UniversityScreen: React.FC<{}> = () => {
                     </h3>
                     <Tooltip
                       reasonText={short_description}
-                      tooltipStyle='absolute -top-[3.5rem] -right-[4.5rem]'
+                      tooltipStyle='absolute -top-[5.5rem] -right-[4.5rem]'
                     />
                   </div>
 
@@ -100,7 +100,7 @@ export const UniversityScreen: React.FC<{}> = () => {
                 </div>
 
                 {/* University Description */}
-                <div className='h-[12rem] p-1 flex flex-col justify-center items-center'>
+                <div className='h-[12rem] p-2 flex flex-col justify-center items-center'>
                   <p className='font-coolvetica font-normal text-sm'>
                     {long_description}
                   </p>
