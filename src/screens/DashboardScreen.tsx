@@ -79,7 +79,6 @@ export const DashboardScreen: React.FC = () => {
     setCityRecommendations,
     setUniversityRecommendations,
     setUniversityDetails,
-    isUserDataFull,
   } = useContext(OrientationSurveyContext);
 
   const menuItemsSection1 = [
@@ -153,27 +152,27 @@ export const DashboardScreen: React.FC = () => {
     switch (selectedCategoryIndex) {
       case 0: // Applications Section
         counts.All = userData.applications.length;
-        counts.Interested = isUserDataFull(userData) ? 1 : 0;
+        counts.Interested = userData.applications.length;
         break;
       case 2: // Study Fields Section
         counts.All = studyFieldRecommendations.length;
-        counts.Interested = isUserDataFull(userData) ? 1 : 0;
+        counts.Interested = userData.applications.length;
         break;
       case 3: // Study Programmes Section
         counts.All = studyProgramRecommendations.length;
-        counts.Interested = isUserDataFull(userData) ? 1 : 0;
+        counts.Interested = userData.applications.length;
         break;
       case 4: // Countries Section
         counts.All = countryRecommendations.length;
-        counts.Interested = isUserDataFull(userData) ? 1 : 0;
+        counts.Interested = userData.applications.length;
         break;
       case 5: // Cities Section
         counts.All = cityRecommendations.length;
-        counts.Interested = isUserDataFull(userData) ? 1 : 0;
+        counts.Interested = userData.applications.length;
         break;
       case 6: // Universities Section
         counts.All = universityRecommendations.length;
-        counts.Interested = isUserDataFull(userData) ? 1 : 0;
+        counts.Interested = userData.applications.length;
         break;
       default:
         counts.All = 0;
@@ -470,7 +469,7 @@ export const DashboardScreen: React.FC = () => {
                   {userData.applications.map((application, index) => (
                     <div
                       key={index}
-                      className='bg-white rounded-2xl w-[16rem] h-[11.5rem] p-4 flex flex-col justify-between'
+                      className='bg-white rounded-2xl w-[18rem] h-[11.5rem] p-4 flex flex-col justify-between'
                     >
                       {/* Study Program */}
                       <h3 className='font-coolvetica font-bold text-sm'>
@@ -523,7 +522,7 @@ export const DashboardScreen: React.FC = () => {
                     return (
                       <div
                         key={index}
-                        className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
+                        className='bg-white rounded-2xl w-[18rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                       >
                         {/* Study Field */}
                         <h3 className='font-coolvetica font-bold text-sm'>
@@ -555,7 +554,7 @@ export const DashboardScreen: React.FC = () => {
                       return (
                         <div
                           key={index}
-                          className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
+                          className='bg-white rounded-2xl w-[18rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                         >
                           {/* Study Program */}
                           <h3 className='font-coolvetica font-bold text-sm'>
@@ -585,7 +584,7 @@ export const DashboardScreen: React.FC = () => {
                     return (
                       <div
                         key={index}
-                        className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
+                        className='bg-white rounded-2xl w-[18rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                       >
                         {/* Country */}
                         <div className='flex flex-row items-center gap-x-2'>
@@ -623,7 +622,7 @@ export const DashboardScreen: React.FC = () => {
                     return (
                       <div
                         key={index}
-                        className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
+                        className='bg-white rounded-2xl w-[18rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                       >
                         {/* City */}
                         <h3 className='font-coolvetica font-bold text-sm'>
@@ -655,7 +654,7 @@ export const DashboardScreen: React.FC = () => {
                       return (
                         <div
                           key={index}
-                          className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
+                          className='bg-white rounded-2xl w-[18rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                         >
                           {/* Study Program */}
                           <h3 className='font-coolvetica font-bold text-sm'>
@@ -681,7 +680,7 @@ export const DashboardScreen: React.FC = () => {
               {/* Nudging Card */}
               {selectedCategoryIndex == 0 && (
                 <>
-                  <div className='bg-white rounded-2xl w-[16rem] h-[11.5rem] p-4 flex flex-col justify-between items-center'>
+                  <div className='bg-white rounded-2xl w-[18rem] h-[11.5rem] p-4 flex flex-col justify-between items-center'>
                     {/* Nudging Header  */}
                     <h3 className='font-coolvetica font-bold text-sm text-center leading-none'>
                       Most students tend to apply to multiple programms

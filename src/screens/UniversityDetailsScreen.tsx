@@ -64,7 +64,7 @@ export const UniversityDetailsScreen: React.FC = () => {
         ...prev.applications,
       ],
     }));
-    setProgress(100 - progress);
+    setProgress(progress + (100 - progress));
     setPreviousOrientationSurveyIndex(orientationSurveyIndex);
     setOrientationSurveyIndex(orientationSurveyIndex + 1);
   };
