@@ -24,6 +24,7 @@ export const CityScreen: React.FC<{}> = () => {
   const { toast } = useToast();
   const {
     orientationSurveyIndex,
+    level,
     progress,
     userData,
     cityRecommendations,
@@ -31,6 +32,8 @@ export const CityScreen: React.FC<{}> = () => {
     setUserData,
     setProgress,
     getUniversityRecommendations,
+    calculateMaxXpForLevel,
+    handleGainXp,
   } = useContext(OrientationSurveyContext);
 
   const [selected, setSelected] = useState<number>(-1);
@@ -58,6 +61,7 @@ export const CityScreen: React.FC<{}> = () => {
       setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
+      handleGainXp(500, calculateMaxXpForLevel(level));
       setUserData((prev) => ({
         ...prev,
         cityChoice: city,

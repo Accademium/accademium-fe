@@ -39,6 +39,7 @@ export const UniversityDetailsScreen: React.FC = () => {
     setOrientationSurveyIndex,
     setPreviousOrientationSurveyIndex,
     setProgress,
+    setUserData,
   } = useContext(OrientationSurveyContext);
 
   const [studyInfoIndex, setStudyInfoIndex] = useState<number>(0);
@@ -50,7 +51,20 @@ export const UniversityDetailsScreen: React.FC = () => {
   };
 
   const handleNext = () => {
-    setProgress(progress + 16.667);
+    setUserData((prev) => ({
+      ...prev,
+      applications: [
+        {
+          studyProgramChoice: userData.studyProgramChoice,
+          universityChoice: userData.universityChoice,
+          cityChoice: userData.cityChoice,
+          countryChoice: userData.countryChoice,
+          startDate: universityDetails.programInfo.split('•').pop()?.trim(),
+        },
+        ...prev.applications,
+      ],
+    }));
+    setProgress(100 - progress);
     setPreviousOrientationSurveyIndex(orientationSurveyIndex);
     setOrientationSurveyIndex(orientationSurveyIndex + 1);
   };
@@ -121,7 +135,7 @@ export const UniversityDetailsScreen: React.FC = () => {
             </div>
 
             {/* University Description */}
-            <div className='flex flex-col gap-y-4 w-full p-2'>
+            <div className='flex flex-col gap-y-2 w-full p-2'>
               <h4 className='font-coolvetica font-bold text-sm text-left '>
                 {ranking}
               </h4>

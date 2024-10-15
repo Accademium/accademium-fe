@@ -27,6 +27,7 @@ export const StudyFieldScreen: React.FC = () => {
   const { toast } = useToast();
   const {
     orientationSurveyIndex,
+    level,
     userData,
     surveyAnswers,
     studyFieldRecommendations,
@@ -34,6 +35,8 @@ export const StudyFieldScreen: React.FC = () => {
     setUserData,
     setProgress,
     getStudyProgramRecommendations,
+    calculateMaxXpForLevel,
+    handleGainXp,
   } = useContext(OrientationSurveyContext);
 
   useEffect(() => {
@@ -63,6 +66,7 @@ export const StudyFieldScreen: React.FC = () => {
       setProgress(16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
+      handleGainXp(200, calculateMaxXpForLevel(level));
       setUserData((prev) => ({
         ...prev,
         studyFieldChoice: studyField,

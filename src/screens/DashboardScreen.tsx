@@ -27,7 +27,6 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-import { UserData } from '@/types';
 import { OrientationSurveyContext } from '@/context/OrientationSurveyContext';
 
 import { useToast } from '@/components/ui/use-toast';
@@ -64,7 +63,6 @@ export const DashboardScreen: React.FC = () => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState<number>(0);
   const [selectedFilterIndex, setSelectedFitlerIndex] = useState<number>(0);
 
-  // @ts-ignore
   const {
     userData,
     studyFieldRecommendations,
@@ -72,15 +70,16 @@ export const DashboardScreen: React.FC = () => {
     countryRecommendations,
     cityRecommendations,
     universityRecommendations,
-    universityDetails,
     setOrientationSurveyIndex,
     setPreviousOrientationSurveyIndex,
+    setProgress,
     setUserData,
     setStudyFieldRecommendations,
     setStudyProgramRecommendations,
     setCityRecommendations,
     setUniversityRecommendations,
     setUniversityDetails,
+    isUserDataFull,
   } = useContext(OrientationSurveyContext);
 
   const menuItemsSection1 = [
@@ -153,7 +152,7 @@ export const DashboardScreen: React.FC = () => {
 
     switch (selectedCategoryIndex) {
       case 0: // Applications Section
-        counts.All = 1;
+        counts.All = userData.applications.length;
         counts.Interested = isUserDataFull(userData) ? 1 : 0;
         break;
       case 2: // Study Fields Section
@@ -189,15 +188,6 @@ export const DashboardScreen: React.FC = () => {
     ];
   };
 
-  const isUserDataFull = (userData: UserData): boolean => {
-    return Object.values(userData).every((value) => {
-      if (typeof value === 'object' && value !== null) {
-        return isUserDataFull(value);
-      }
-      return typeof value === 'string' && value.trim() !== '';
-    });
-  };
-
   const handleSelection = (index: number) => {
     if (index == 1) {
       toast({
@@ -224,9 +214,9 @@ export const DashboardScreen: React.FC = () => {
     });
   };
 
-  const handeLogout = () => {
-    setOrientationSurveyIndex(0);
-    setPreviousOrientationSurveyIndex(0);
+  const handleAdd = () => {
+    setProgress(0);
+    setOrientationSurveyIndex(1);
     setUserData({
       surveyResponses: {
         careerInterests: '',
@@ -245,7 +235,34 @@ export const DashboardScreen: React.FC = () => {
       countryChoice: '',
       cityChoice: '',
       universityChoice: '',
+      applications: [...userData.applications],
     });
+  };
+
+  const handeLogout = () => {
+    setOrientationSurveyIndex(0);
+    setPreviousOrientationSurveyIndex(0);
+    setProgress(0),
+      setUserData({
+        surveyResponses: {
+          careerInterests: '',
+          workEnvironment: '',
+          problemSolving: '',
+          skillsDevelopment: '',
+          taskPreference: '',
+          learningPreference: '',
+          careerGoals: '',
+          careerMotivation: '',
+          adversityHandling: '',
+          workLifeBalance: '',
+        },
+        studyFieldChoice: '',
+        studyProgramChoice: '',
+        countryChoice: '',
+        cityChoice: '',
+        universityChoice: '',
+        applications: [],
+      });
     setOrientationSurveyIndex(0);
     setPreviousOrientationSurveyIndex(0);
     setStudyFieldRecommendations([]);
@@ -389,9 +406,7 @@ export const DashboardScreen: React.FC = () => {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() => setOrientationSurveyIndex(1)}
-                    >
+                    <AlertDialogAction onClick={() => handleAdd()}>
                       Continue
                     </AlertDialogAction>
                   </AlertDialogFooter>
@@ -406,7 +421,6 @@ export const DashboardScreen: React.FC = () => {
                 {getFilterCounts().map((filter, index) => {
                   return (
                     <div
-                      onClick={() => setSelectedFitlerIndex(index)}
                       key={index}
                       className='flex flex-row items-center gap-x-2'
                     >
@@ -421,7 +435,8 @@ export const DashboardScreen: React.FC = () => {
                         } w-[20px] h-[20px]`}
                       >
                         <button
-                          className={`font-coolvetica font-normal ${
+                          onClick={() => setSelectedFitlerIndex(index)}
+                          className={`font-coolvetica font-normal w-full ${
                             selectedFilterIndex == index ? 'text-[#488a77]' : ''
                           } text-xs`}
                         >
@@ -449,50 +464,55 @@ export const DashboardScreen: React.FC = () => {
             {/* Display Section */}
             <div className='flex flex-row gap-x-6 mt-6 gap-y-6 w-full flex-wrap'>
               {/* APPLICATIONS */}
-              {selectedCategoryIndex == 0 && isUserDataFull(userData) && (
+              {selectedCategoryIndex == 0 && (
                 <>
                   {/* Display Card */}
-                  <div className='bg-white rounded-2xl w-[16rem] h-[10.5rem] p-4'>
-                    {/* Study Program */}
-                    <h3 className='font-coolvetica font-bold text-sm'>
-                      {userData.studyProgramChoice}
-                    </h3>
+                  {userData.applications.map((application, index) => (
+                    <div
+                      key={index}
+                      className='bg-white rounded-2xl w-[16rem] h-[11.5rem] p-4 flex flex-col justify-between'
+                    >
+                      {/* Study Program */}
+                      <h3 className='font-coolvetica font-bold text-sm'>
+                        {application.studyProgramChoice}
+                      </h3>
 
-                    {/* University */}
-                    <div className='flex flex-col gap-y-0.5 mt-2'>
-                      <h4 className='font-coolvetica font-normal text-xs'>
-                        {userData.universityChoice}
-                      </h4>
-                      {/* City + Country */}
-                      <h4 className='font-coolvetica font-normal text-xs'>
-                        {userData.cityChoice}, {userData.countryChoice}
-                      </h4>
-                      {/* Program Duration */}
-                      <h4 className='font-coolvetica font-normal text-xs'>
-                        {universityDetails.programInfo.split('•').pop()}
-                      </h4>
-                    </div>
+                      {/* University */}
+                      <div className='flex flex-col gap-y-0.5 mt-2'>
+                        <h4 className='font-coolvetica font-normal text-xs'>
+                          {application.universityChoice}
+                        </h4>
+                        {/* City + Country */}
+                        <h4 className='font-coolvetica font-normal text-xs'>
+                          {application.cityChoice}, {application.countryChoice}
+                        </h4>
+                        {/* Program Duration */}
+                        <h4 className='font-coolvetica font-normal text-xs'>
+                          {application.startDate}
+                        </h4>
+                      </div>
 
-                    <div className='flex flex-col mt-2 gap-y-1'>
-                      <h4 className='font-coolvetica font-bold text-xs '>
-                        Status: Interested / Not Applied
-                      </h4>
+                      <div className='flex flex-col mt-2 gap-y-2'>
+                        <h4 className='font-coolvetica font-bold text-xs '>
+                          Status: Interested / Not Applied
+                        </h4>
 
-                      <div className='flex flex-row items-center gap-x-2'>
-                        <button className='rounded-lg bg-[#b7b7b7] py-1.5 px-4'>
-                          <h4 className='font-coolvetica font-normal text-xs text-white'>
-                            Show Details
-                          </h4>
-                        </button>
+                        <div className='flex flex-row items-center gap-x-2'>
+                          <button className='rounded-lg bg-[#b7b7b7] py-1.5 px-4'>
+                            <h4 className='font-coolvetica font-normal text-xs text-white'>
+                              Show Details
+                            </h4>
+                          </button>
 
-                        <button className='rounded-lg bg-[#488a77] py-1.5 px-4'>
-                          <h4 className='font-coolvetica font-normal text-xs text-white'>
-                            Start Application
-                          </h4>
-                        </button>
+                          <button className='rounded-lg bg-[#488a77] py-1.5 px-4'>
+                            <h4 className='font-coolvetica font-normal text-xs text-white'>
+                              Start Application
+                            </h4>
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
                 </>
               )}
 
@@ -503,7 +523,7 @@ export const DashboardScreen: React.FC = () => {
                     return (
                       <div
                         key={index}
-                        className='bg-white rounded-2xl w-[16rem] h-[10.5rem] px-4 py-3 flex flex-col justify-between'
+                        className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                       >
                         {/* Study Field */}
                         <h3 className='font-coolvetica font-bold text-sm'>
@@ -535,7 +555,7 @@ export const DashboardScreen: React.FC = () => {
                       return (
                         <div
                           key={index}
-                          className='bg-white rounded-2xl w-[16rem] h-[10.5rem] px-4 py-3 flex flex-col justify-between'
+                          className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                         >
                           {/* Study Program */}
                           <h3 className='font-coolvetica font-bold text-sm'>
@@ -565,7 +585,7 @@ export const DashboardScreen: React.FC = () => {
                     return (
                       <div
                         key={index}
-                        className='bg-white rounded-2xl w-[16rem] h-[10.5rem] px-4 py-3 flex flex-col justify-between'
+                        className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                       >
                         {/* Country */}
                         <div className='flex flex-row items-center gap-x-2'>
@@ -603,7 +623,7 @@ export const DashboardScreen: React.FC = () => {
                     return (
                       <div
                         key={index}
-                        className='bg-white rounded-2xl w-[16rem] h-[10.5rem] px-4 py-3 flex flex-col justify-between'
+                        className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                       >
                         {/* City */}
                         <h3 className='font-coolvetica font-bold text-sm'>
@@ -635,7 +655,7 @@ export const DashboardScreen: React.FC = () => {
                       return (
                         <div
                           key={index}
-                          className='bg-white rounded-2xl w-[16rem] h-[10.5rem] px-4 py-3 flex flex-col justify-between'
+                          className='bg-white rounded-2xl w-[16rem] h-[11.5rem] px-4 py-3 flex flex-col justify-between'
                         >
                           {/* Study Program */}
                           <h3 className='font-coolvetica font-bold text-sm'>
@@ -661,7 +681,7 @@ export const DashboardScreen: React.FC = () => {
               {/* Nudging Card */}
               {selectedCategoryIndex == 0 && (
                 <>
-                  <div className='bg-white rounded-2xl w-[16rem] h-[10.5rem] p-4 flex flex-col justify-between items-center'>
+                  <div className='bg-white rounded-2xl w-[16rem] h-[11.5rem] p-4 flex flex-col justify-between items-center'>
                     {/* Nudging Header  */}
                     <h3 className='font-coolvetica font-bold text-sm text-center leading-none'>
                       Most students tend to apply to multiple programms
@@ -696,9 +716,7 @@ export const DashboardScreen: React.FC = () => {
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={() => setOrientationSurveyIndex(1)}
-                          >
+                          <AlertDialogAction onClick={() => handleAdd()}>
                             Continue
                           </AlertDialogAction>
                         </AlertDialogFooter>

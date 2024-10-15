@@ -67,6 +67,14 @@ export interface UniversityDetails {
   };
 }
 
+export interface Application {
+  studyProgramChoice: string;
+  universityChoice: string;
+  cityChoice: string;
+  countryChoice: string;
+  startDate: string | undefined;
+}
+
 export interface UserData {
   surveyResponses: SurveyAnswers;
   studyFieldChoice: string;
@@ -74,6 +82,7 @@ export interface UserData {
   countryChoice: string;
   cityChoice: string;
   universityChoice: string;
+  applications: Application[];
 }
 
 export interface IOrientationSurveyContext {
@@ -81,6 +90,8 @@ export interface IOrientationSurveyContext {
   previousOrientationSurveyIndex: number;
   progress: number;
   loading: boolean;
+  level: number;
+  currentXp: number;
   userData: {
     surveyResponses: {
       careerInterests: string;
@@ -99,6 +110,7 @@ export interface IOrientationSurveyContext {
     countryChoice: string;
     cityChoice: string;
     universityChoice: string;
+    applications: Application[];
   };
   surveyAnswers: SurveyAnswers;
   studyFieldRecommendations: StudyFieldRecommendation[];
@@ -113,6 +125,8 @@ export interface IOrientationSurveyContext {
   >;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setLevel: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentXp: React.Dispatch<React.SetStateAction<number>>;
   setUserData: React.Dispatch<React.SetStateAction<UserData>>;
   setSurveyAnswers: React.Dispatch<React.SetStateAction<SurveyAnswers>>;
   setStudyFieldRecommendations: React.Dispatch<
@@ -137,6 +151,9 @@ export interface IOrientationSurveyContext {
   getCityRecommendations: (country: string) => void;
   getUniversityRecommendations: (city: string, studyProgram: string) => void;
   getUniversityDetails: (university: string, studyProgram: string) => void;
+  calculateMaxXpForLevel: (level: number) => number;
+  handleGainXp: (xpGain: number, maxXp: number) => void;
+  isUserDataFull: (userData: UserData) => boolean;
 }
 
 export interface SurveyScreenProps {

@@ -45,15 +45,6 @@ const screenTitles = new Map<number, string>([
   [6, 'The selected university that offers the study programme'],
 ]);
 
-const progressValueToMax = new Map<number, number[]>([
-  [1, [100, 200]],
-  [2, [300, 500]],
-  [3, [600, 750]],
-  [4, [1000, 1250]],
-  [5, [1500, 2500]],
-  [6, [2500, 5000]],
-]);
-
 const OrientationSurveyPage: React.FC = () => {
   const { toast } = useToast();
 
@@ -62,11 +53,14 @@ const OrientationSurveyPage: React.FC = () => {
     previousOrientationSurveyIndex,
     progress,
     loading,
+    level,
+    currentXp,
     studyFieldRecommendations,
     setSurveyAnswers,
     setStudyFieldRecommendations,
     setOrientationSurveyIndex,
     setPreviousOrientationSurveyIndex,
+    calculateMaxXpForLevel,
   } = useContext(OrientationSurveyContext);
 
   const handleDashboard = () => {
@@ -118,23 +112,19 @@ const OrientationSurveyPage: React.FC = () => {
             {orientationSurveyIndex !== 0 && orientationSurveyIndex !== 7 && (
               <div className='flex flex-row justify-center items-center gap-x-6 w-[48rem] h-full'>
                 <h3 className='font-coolvetica uppercase font-normal text-nowrap'>
-                  Level {orientationSurveyIndex}
+                  Level {level}
                 </h3>
                 <Progress
                   className='w-[28rem]'
                   color='bg-[#488a77]'
-                  value={
-                    progressValueToMax.get(
-                      orientationSurveyIndex
-                    )?.[0] as number
-                  }
-                  max={progressValueToMax.get(orientationSurveyIndex)?.[1]}
+                  value={currentXp}
+                  max={calculateMaxXpForLevel(level)}
                 />
                 <h3 className='font-coolvetica font-light'>
-                  {progressValueToMax.get(orientationSurveyIndex)?.[0]}
+                  {currentXp}
                   <span className='text-gray-400'>
                     {' '}
-                    / {progressValueToMax.get(orientationSurveyIndex)?.[1]} XP
+                    / {calculateMaxXpForLevel(level)} XP
                   </span>
                 </h3>
               </div>

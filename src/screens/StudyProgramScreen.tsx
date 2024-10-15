@@ -15,12 +15,15 @@ export const StudyProgramScreen: React.FC<{}> = () => {
   const { toast } = useToast();
   const {
     orientationSurveyIndex,
+    level,
     userData,
     progress,
     studyProgramRecommendations,
     setOrientationSurveyIndex,
     setUserData,
     setProgress,
+    calculateMaxXpForLevel,
+    handleGainXp,
   } = useContext(OrientationSurveyContext);
 
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
@@ -48,6 +51,7 @@ export const StudyProgramScreen: React.FC<{}> = () => {
       setProgress(progress + 16.667);
       setOrientationSurveyIndex(orientationSurveyIndex + 1);
     } else {
+      handleGainXp(300, calculateMaxXpForLevel(level));
       setUserData((prev) => ({
         ...prev,
         studyProgramChoice: studyProgram,
