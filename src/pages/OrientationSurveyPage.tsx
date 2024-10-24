@@ -8,6 +8,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { Toaster } from '@/components/ui/toaster';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { ProgressSteps } from "@/components/ui/progressSteps.tsx";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,8 +21,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Loader2 } from 'lucide-react';
 
+import { Loader2 } from 'lucide-react';
 import { SurveyScreen } from '@/screens/SurveyScreen';
 import { StudyFieldScreen } from '@/screens/StudyFieldScreen';
 import { StudyProgramScreen } from '@/screens/StudyProgramScreen';
@@ -97,6 +99,25 @@ const OrientationSurveyPage: React.FC = () => {
     });
   };
 
+  const steps = [
+    { stepNumber: 1, label: 'Study Field', xp: 100 },
+    { stepNumber: 2, label: 'Study Program', xp: 200 },
+    { stepNumber: 3, label: 'Country', xp: 300 },
+    { stepNumber: 4, label: 'City', xp: 400 },
+    { stepNumber: 5, label: 'University', xp: 500 },
+    { stepNumber: 6, label: 'University Details', xp: 1000 },
+  ]
+
+  const getStatusForStep = (stepNumber: number, level: number) => {
+    if (stepNumber < level) {
+      return 'Completed';
+    } else if (stepNumber == level) {
+      return 'In progress';
+    } else {
+      return 'Pending';
+    }
+  }
+
   return (
     <>
       <div className='flex flex-col w-screen h-screen'>
@@ -134,13 +155,31 @@ const OrientationSurveyPage: React.FC = () => {
         </header>
 
         <main className='w-full h-full flex flex-col gap-y-2'>
+          {orientationSurveyIndex !== 0 && !loading && (
+            <div className="absolute left-4 max-lg:hidden">
+              {/*<Progress value={progress * 100} max={steps.length * 100} className='absolute w-4 h-full' />*/}
+              <div className="space-y-4">
+                {steps.map((step) => (
+                    <ProgressSteps
+                      key={step.stepNumber}
+                      stepNumber={step.stepNumber}
+                      label={step.label}
+                      xp={step.xp}
+                      status={getStatusForStep(step.stepNumber, level)}
+                    />
+                ))}
+              </div>
+            </div>
+          )}
           {/* Progress Bar + Dashboard Button  */}
           {orientationSurveyIndex != 0 && !loading && (
             <div className='flex lg:flex-row flex-col-reverse justify-center items-center w-full h-[2.5rem]'>
-              <Progress
-                value={progress}
-                className='lg:w-[44rem] w-[22rem] h-[24px]'
-              />
+              {orientationSurveyIndex == 0 && (
+                <Progress
+                  value={progress}
+                  className='lg:w-[44rem] w-[22rem] h-[24px]'
+                />
+              )}
 
               {/* Dashboard Button */}
               <div className='flex gap-x-2 absolute lg:right-[4rem]'>

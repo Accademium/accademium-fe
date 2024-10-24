@@ -170,7 +170,7 @@ export const OrientationSurveyProvider: React.FC<{
   };
 
   const handleGainXp = (xpGain: number, maxXp: number) => {
-    let newXp = currentXp + xpGain;
+    const newXp = currentXp + xpGain;
 
     if (newXp >= maxXp) {
       setLevel((prevLevel) => prevLevel + 1);
