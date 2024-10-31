@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import OrientationSurveyPage from './pages/OrientationSurveyPage';
+import LandingPage from "@/pages/LandingPage.tsx";
 import { OrientationSurveyProvider } from './context/OrientationSurveyContext';
 
 const App: React.FC = () => {
@@ -13,6 +14,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/survey' element={<OrientationSurveyPage />} />
+          <Route path='/landing' element={<LandingPage />} />
           {/* <Route path='/application-page' element={<ApplicationPage />} /> */}
         </Routes>
       </Router>
