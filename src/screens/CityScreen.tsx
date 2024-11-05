@@ -77,19 +77,19 @@ export const CityScreen: React.FC<{}> = () => {
       {/* Main Container */}
       <div className='flex flex-col justify-center items-center h-full mx-64'>
         {/* City Container */}
-        <div className='flex flex-row justify-center items-center flex-wrap w-full h-full gap-x-12'>
+        <div className='flex flex-row justify-center items-center flex-wrap w-full h-full gap-x-8'>
           {cityRecommendations?.map((city, index) => {
             const { city_name, description, ratings } = city;
             return (
               <button
                 onClick={() => handleSelect(index, city_name)}
                 key={index}
-                className={`border-2 rounded-3xl w-[20rem] h-[13.5rem] hover:border-black py-5 px-6 ${
+                className={`border-2 rounded-3xl w-[16rem] h-[10.5rem] hover:border-black py-5 px-6 ${
                   selected === index ? 'border-black' : ''
                 } `}
               >
                 <div className='flex flex-row justify-between relative'>
-                  <h3 className='font-coolvetica font-bold text-lg'>
+                  <h3 className='font-coolvetica font-bold text-sm'>
                     {city_name}
                   </h3>
                   <Tooltip
@@ -101,14 +101,14 @@ export const CityScreen: React.FC<{}> = () => {
                 <Separator className='my-2' />
 
                 {/* City Data Container */}
-                <div className='flex flex-row justify-between items-center w-full h-[8rem]'>
+                <div className='flex flex-row justify-between items-center w-full h-[5.5rem]'>
                   {/* City Criteria Container */}
-                  <div className='flex flex-col justify-between items-start h-full'>
+                  <div className='flex flex-col gap-y-2 items-start h-full'>
                     {cityCriteria.map((criteria, index) => {
                       return (
                         <p
                           key={index}
-                          className='font-coolvetica font-normal leading-none'
+                          className='font-coolvetica font-normal text-xs leading-none'
                         >
                           {criteria}
                         </p>
@@ -117,7 +117,7 @@ export const CityScreen: React.FC<{}> = () => {
                   </div>
 
                   {/* City Rating Container */}
-                  <div className='flex flex-col justify-between h-full'>
+                  <div className='flex flex-col gap-y-2 h-full'>
                     {/* City Rating Row */}
                     {Array.from({ length: cityCriteria.length }).map(
                       (_, rowIndex) => {
@@ -133,8 +133,8 @@ export const CityScreen: React.FC<{}> = () => {
                               <img
                                 key={columnIndex}
                                 src='../../images/star_icon.png'
-                                width={16}
-                                height={16}
+                                width={12}
+                                height={12}
                               />
                             ))}
 
@@ -142,8 +142,8 @@ export const CityScreen: React.FC<{}> = () => {
                             {hasHalfStar && (
                               <img
                                 src='../../images/half_star_icon.png'
-                                width={8}
-                                height={16}
+                                width={6}
+                                height={12}
                               />
                             )}
                           </div>
