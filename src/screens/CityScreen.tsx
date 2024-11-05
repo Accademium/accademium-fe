@@ -75,7 +75,7 @@ export const CityScreen: React.FC<{}> = () => {
   return (
     <>
       {/* Main Container */}
-      <div className='flex flex-col justify-center items-center h-full mx-64'>
+      <div className='flex flex-col justify-center items-center h-full mx-24'>
         {/* City Container */}
         <div className='flex flex-row justify-center items-center flex-wrap w-full h-full gap-x-12'>
           {cityRecommendations?.map((city, index) => {
