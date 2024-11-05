@@ -119,7 +119,7 @@ export const OrientationSurveyProvider: React.FC<{
   children: React.ReactElement;
 }> = ({ children }) => {
   const [orientationSurveyIndex, setOrientationSurveyIndex] =
-    useState<number>(4);
+    useState<number>(0);
   const [previousOrientationSurveyIndex, setPreviousOrientationSurveyIndex] =
     useState<number>(0);
 
@@ -229,68 +229,7 @@ export const OrientationSurveyProvider: React.FC<{
 
   const [cityRecommendations, setCityRecommendations] = useState<
     CityRecommendation[]
-  >([
-    {
-      city_name: 'London',
-      description:
-        'London is a bustling metropolis known for its rich history, diverse culture, and world-class universities, offering a vibrant environment for students.',
-      ratings: {
-        housing_availability: 3.0,
-        nightlife: 5.0,
-        societal_inclusion: 4.5,
-        work_opportunities: 5.0,
-        safety: 3.5,
-      },
-    },
-    {
-      city_name: 'Manchester',
-      description:
-        'Manchester is a lively city famous for its music scene, sports culture, and friendly atmosphere, making it a popular choice for students.',
-      ratings: {
-        housing_availability: 4.0,
-        nightlife: 4.5,
-        societal_inclusion: 4.0,
-        work_opportunities: 4.0,
-        safety: 4.0,
-      },
-    },
-    {
-      city_name: 'Birmingham',
-      description:
-        'Birmingham is a dynamic city with a rich industrial heritage, diverse communities, and a growing arts scene, offering a welcoming environment for students.',
-      ratings: {
-        housing_availability: 4.0,
-        nightlife: 4.0,
-        societal_inclusion: 4.5,
-        work_opportunities: 4.0,
-        safety: 3.5,
-      },
-    },
-    {
-      city_name: 'Leeds',
-      description:
-        'Leeds is a vibrant city known for its thriving cultural scene, excellent shopping, and strong academic institutions, providing a lively setting for students.',
-      ratings: {
-        housing_availability: 4.5,
-        nightlife: 4.0,
-        societal_inclusion: 4.0,
-        work_opportunities: 4.0,
-        safety: 4.0,
-      },
-    },
-    {
-      city_name: 'Bristol',
-      description:
-        'Bristol is a creative city renowned for its maritime history, street art, and innovative spirit, offering a unique environment for students.',
-      ratings: {
-        housing_availability: 3.5,
-        nightlife: 4.5,
-        societal_inclusion: 4.5,
-        work_opportunities: 4.0,
-        safety: 4.0,
-      },
-    },
-  ]);
+  >([]);
 
   const [universityRecommendations, setUniversityRecommendations] = useState<
     UniversityRecommendation[]
