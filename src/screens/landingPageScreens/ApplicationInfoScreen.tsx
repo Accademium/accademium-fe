@@ -1,51 +1,16 @@
 import React, { useState } from "react";
-import BlankImg from "/images/Landing Page Images/BlankImage.png";
-
-interface CardData {
-    title: string;
-    description: string;
-}
-
-interface CardProps {
-    title: string;
-    description: string;
-    isOpen: boolean;
-    onClick: () => void;
-}
+import { ApplicationInfoScreenProps } from "@/data/utils/interfaces/screens/ApplicationInfoScreen.ts";
+import { ApplicationInfoScreenData } from "@/data/LandingPageData.ts";
+import BlankImg from "/images/Landing-Page-Images/BlankImage.png";
 
 const CardList = () => {
     const [openCardIndex, setOpenCardIndex] = useState<number | null>(null);
-
-    const cardsData: CardData[] = [
-        {
-            title: "University Search and Program Matching",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-        {
-            title: "Application Assistance",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-        {
-            title: "Document Management",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-        {
-            title: "Application Submission and Progress Tracking",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-        {
-            title: "Pre-Departure and Post-Arrival Support",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-
-    ];
-
 
 const toggleCard = (index: number) => {
     setOpenCardIndex(openCardIndex === index ? null : index);
 };
 
-const Card: React.FC<CardProps> = ({ title, description, isOpen, onClick }) => {
+const Card: React.FC<ApplicationInfoScreenProps> = ({ title, description, isOpen, onClick }) => {
     return (
         <div
             className={`p-5 mb-2 max-md:w-11/12 max-md:mx-auto ${isOpen ? 'border border-[#ccc] rounded-lg' : ''}`}
@@ -76,7 +41,7 @@ const Card: React.FC<CardProps> = ({ title, description, isOpen, onClick }) => {
                     <img src={BlankImg} alt="" className="mb-12 w-full md:rounded-2xl"/>
                 </div>
                 <div className="flex flex-col md:w-[600px]">
-                    {cardsData.map((card, index) => (
+                    {ApplicationInfoScreenData.map((card, index) => (
                         <Card
                             key={index}
                             title={card.title}

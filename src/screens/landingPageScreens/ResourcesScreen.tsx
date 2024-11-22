@@ -1,55 +1,6 @@
-
-
-interface CardData {
-    title: string;
-    description: string;
-    link: string;
-    linkUrl: string;
-}
-
-interface ResourcesScreenProps {
-    title: string;
-    description: string;
-    link: string;
-    linkUrl: string;
-}
-
-const cardsData: CardData[] = [
-    {
-      title: "What is the application" +
-          " process?",
-      description: "Explore the essential steps" +
-          " of applying to universities" +
-          " abroad, from research to" +
-          " admissions, ensuring you're" +
-          " ready for your academic" +
-          " journey.",
-      link: "Read the article ⟶",
-      linkUrl: "#",
-    },
-    {
-      title: "Managing Finances While" +
-          " Studying Abroad?",
-      description: "Discover effective strategies" +
-          " for budgeting and maximizing" +
-          " financial resources during" +
-          " your study abroad" +
-          " experience.",
-      link: "Watch the video ⟶",
-      linkUrl: "#",
-    },
-    {
-      title: "How to find accommodation" +
-          " while you are abroad",
-      description: "Navigate finding accommodation" +
-          " abroad confidently with practical" +
-          " advice on researching housing," +
-          " securing leases, and settling in," +
-          " making yourself feel at home.",
-      link: "Read the guide ⟶",
-      linkUrl: "#",
-    },
-]
+import React from "react";
+import { resourcesData } from "@/data/LandingPageData.ts";
+import { ResourcesScreenProps } from "@/data/utils/interfaces/screens/ResourcesScreen.ts";
 
 const Card: React.FC<ResourcesScreenProps> = ({title, description, link, linkUrl}) => {
     return (
@@ -70,7 +21,7 @@ const Resources = () => {
                 Resources to help you kickstart your academic journey
             </h2>
             <div className="max-lg:space-y-8 lg:flex gap-20 mt-12 border-b border-black pb-20">
-                {cardsData.map((card, index) => (
+                {resourcesData.map((card, index) => (
                     <Card
                         key={index}
                         title={card.title}

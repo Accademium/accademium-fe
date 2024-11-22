@@ -1,53 +1,16 @@
 import React, { useState } from "react";
+import { QuestionsScreenProps } from "@/data/utils/interfaces/screens/QuestionsScreen.ts";
+import { questionsData } from "@/data/LandingPageData.ts";
 
-interface CardData {
-    question: string;
-    description: string;
-}
-
-interface QuestionsScreenProps {
-    question: string;
-    description: string;
-    isOpen: boolean;
-    onClick: () => void;
-}
 
 const Questions = () => {
     const [openCardIndex, setOpenCardIndex] = useState<number | null>(null);
-
-    const cardsData: CardData[] = [
-        {
-            question: "What countries and universities does Accademium support?",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-        {
-            question: "Is Accademium suitable for undergraduate and graduate students?",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-        {
-            question: "Can Accademium provide guidance on financial aid and scholarships?",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-        {
-            question: "Does Accademium offer support from finding accommodation abroad?",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-        {
-            question: "How does Accademium store my personal information?",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        },
-        {
-            question: "How can I get in touch with Accademium's support team?",
-            description: "Explore universities and programs tailored to your preferences with our comprehensive search feature. Filter universities based on location, tuition fees, available scholarships, and explore detailed program information, admission requirements, and scholarship opportunities."
-        }
-
-    ];
 
     const toggleCard = (index: number) => {
         setOpenCardIndex(openCardIndex === index ? null : index);
     };
 
-    const Card: React.FC<QuestionsScreenProps> = ({ question, description, isOpen, onClick }) => {
+    const Card: React.FC<QuestionsScreenProps> = ({ title, description, isOpen, onClick }) => {
         return (
             <div
                 className={`border border-[#ccc] rounded-2xl p-5 md:w-2/3 max-md:w-11/12 mb-3 flex flex-col ${isOpen ? 'open' : ''}`}
@@ -55,7 +18,7 @@ const Questions = () => {
                 <div
                     className="flex items-center md:text-xl max-md:text-lg max-md:leading-tight cursor-pointer justify-between font-bold"
                     onClick={onClick}>
-                    <span>{question}</span>
+                    <span>{title}</span>
                     <span>{isOpen ? '−' : '+'}</span>
                 </div>
                 {isOpen && (
@@ -72,10 +35,10 @@ const Questions = () => {
             <h1 className="text-center font-extrabold md:text-4xl max-md:text-3xl pb-8 px-8">
                 Frequently asked questions
             </h1>
-            {cardsData.map((card, index) => (
+            {questionsData.map((card, index) => (
                 <Card
                     key={index}
-                    question={card.question}
+                    title={card.title}
                     description={card.description}
                     isOpen={openCardIndex === index}
                     onClick={() => toggleCard(index)}
