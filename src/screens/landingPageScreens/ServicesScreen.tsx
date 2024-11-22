@@ -1,6 +1,6 @@
-import ServicesInteractive from "/images/Landing Page Images/ServicesInteractive.png";
-import ServicesIndividual from "/images/Landing Page Images/ServicesIndividual.png";
-import ServicesMentorship from "/images/Landing Page Images/ServicesMentor.png";
+import ServicesInteractive from "/images/Landing-Page-Images/ServicesInteractive.png";
+import ServicesIndividual from "/images/Landing-Page-Images/ServicesIndividual.png";
+import ServicesMentorship from "/images/Landing-Page-Images/ServicesMentor.png";
 
 const Services = () => {
     return(

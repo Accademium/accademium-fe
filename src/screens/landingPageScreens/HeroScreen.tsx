@@ -1,4 +1,4 @@
-import SurveyImg from "/images/Landing Page Images/survey-photo.jpg";
+import SurveyImg from "/images/Landing-Page-Images/survey-photo.jpg";
 import { Link } from "react-router-dom";
 
 const Hero = () => {
