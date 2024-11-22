@@ -155,10 +155,10 @@ const OrientationSurveyPage: React.FC = () => {
         </header>
 
         <main className='w-full h-full flex flex-col gap-y-2'>
+          {/* Side Progress Bar */}
           {orientationSurveyIndex !== 0 && !loading && (
-            <div className="absolute left-4 max-lg:hidden">
-              {/*<Progress value={progress * 100} max={steps.length * 100} className='absolute w-4 h-full' />*/}
-              <div className="space-y-4">
+            <div className={`${orientationSurveyIndex === 7 ? 'w-full flex justify-center' : 'absolute left-4 max-lg:hidden'}`}>
+              <div className={`space-y-4 ${orientationSurveyIndex === 7 ? 'flex items-baseline' : ''}`}>
                 {steps.map((step) => (
                     <ProgressSteps
                       key={step.stepNumber}
@@ -166,6 +166,7 @@ const OrientationSurveyPage: React.FC = () => {
                       label={step.label}
                       xp={step.xp}
                       status={getStatusForStep(step.stepNumber, level)}
+                      direction={orientationSurveyIndex === 7 ? 'horizontal' : 'vertical'}
                     />
                 ))}
               </div>
