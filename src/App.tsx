@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import HomePage from './pages/HomePage';
 import OrientationSurveyPage from './pages/OrientationSurveyPage';
 import LandingPage from "@/pages/LandingPage.tsx";
 import { OrientationSurveyProvider } from './context/OrientationSurveyContext';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 const App: React.FC = () => {
   return (
@@ -12,9 +13,10 @@ const App: React.FC = () => {
     <OrientationSurveyProvider>
       <Router>
         <Routes>
-          <Route path='/' element={<HomePage />} />
+          <Route path='/' element={<LandingPage />} />
           <Route path='/survey' element={<OrientationSurveyPage />} />
-          <Route path='/landing' element={<LandingPage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
           {/* <Route path='/application-page' element={<ApplicationPage />} /> */}
         </Routes>
       </Router>
