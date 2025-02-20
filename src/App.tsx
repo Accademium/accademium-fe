@@ -9,7 +9,6 @@ import RegisterPage from './pages/RegisterPage';
 
 const App: React.FC = () => {
   return (
-    // @TODO Wrap context providers only around routes that need to access the state in that specific context!
     <OrientationSurveyProvider>
       <Router>
         <Routes>

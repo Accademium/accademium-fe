@@ -4,12 +4,15 @@ import { SurveyScreenProps } from '../types';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '../components/ui/use-toast';
 
+import Cookies from 'js-cookie'; 
+
 import { Toaster } from '@/components/ui/toaster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import { OrientationSurveyContext } from '@/context/OrientationSurveyContext';
+import { AuthModal } from '@/components/auth/AuthModal';
 
 export const SurveyScreen: React.FC<SurveyScreenProps> = ({
   questionsAndAnswers,
@@ -25,15 +28,9 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
   const { toast } = useToast();
 
   const [selected, setSelected] = useState<number>(0);
-  const [questionIndex, setQuesitonIndex] = useState<number>(0);
+  const [questionIndex, setQuestionIndex] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
-
-  const handlePrevious = () => {
-    if (questionIndex > 0) {
-      setProgress(progress - 10);
-      setQuesitonIndex(questionIndex - 1);
-    }
-  };
+  const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
 
   const handleNext = () => {
     if (selected === 0) {
@@ -43,23 +40,51 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
       return;
     }
     if (questionIndex < questionsAndAnswers.length - 1) {
+      console.log(`Setting answer for question index: ${[questionIndex + 1]} and its answer ${selected}`)
+      console.log(surveyAnswers)
       setSurveyAnswers((prev) => ({
         ...prev,
-        [getSurveyAnswersKeys()[questionIndex]]:
-          questionsAndAnswers[questionIndex][selected],
+        [questionIndex + 1]: selected,
       }));
       setProgress(progress + 10);
       setSelected(0);
-      setQuesitonIndex(questionIndex + 1);
+      setQuestionIndex(questionIndex + 1);
     } else {
-      setSurveyAnswers((prev) => ({
-        ...prev,
-        [getSurveyAnswersKeys()[questionIndex]]:
-          questionsAndAnswers[questionIndex][selected],
-      }));
-      setOrientationSurveyIndex(orientationSurveyIndex + 1);
-      getStudyFieldRecommendations(surveyAnswers);
+      // If user is not authenticated he cannot submit the survey
+      if (!Cookies.get('token')) {
+        setShowAuthModal(true);
+        return;
+      }
+      handleFinish();
     }
+  };
+
+  // Called when authentication succeeds in the modal
+  const handleAuthSuccess = () => {
+    console.log("Successfull login!")
+    setShowAuthModal(false);
+    handleFinish();
+  };
+
+  const handlePrevious = () => {
+    if (questionIndex > 0) {
+      setProgress(progress - 10);
+      setQuestionIndex(questionIndex - 1);
+    }
+  };
+
+  // Final submission logic
+  const handleFinish = () => {
+    // Save the final answer
+    setSurveyAnswers((prev) => ({
+      ...prev,
+      [questionIndex + 1]: selected,
+    }));
+    console.log("surveyAnswers")
+    console.log(surveyAnswers)
+    // Now that we are authenticated, submit the answers
+    getStudyFieldRecommendations(surveyAnswers);
+    setOrientationSurveyIndex(orientationSurveyIndex + 1);
   };
 
   return (
@@ -167,6 +192,11 @@ export const SurveyScreen: React.FC<SurveyScreenProps> = ({
         )}
       </div>
       <Toaster />
+
+      {/* Render the authentication modal if needed */}
+      {showAuthModal && (
+        <AuthModal onClose={() => setShowAuthModal(false)} onAuthSuccess={handleAuthSuccess} />
+      )}
     </>
   );
 };

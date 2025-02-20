@@ -1,15 +1,6 @@
 // @TODO Convert this to a mapping!
 export interface SurveyAnswers {
-  careerInterests: string;
-  workEnvironment: string;
-  problemSolving: string;
-  skillsDevelopment: string;
-  taskPreference: string;
-  learningPreference: string;
-  careerGoals: string;
-  careerMotivation: string;
-  adversityHandling: string;
-  workLifeBalance: string;
+  [key: string]: number | null
 }
 
 export interface StudyFieldRecommendation {
@@ -92,26 +83,7 @@ export interface IOrientationSurveyContext {
   loading: boolean;
   level: number;
   currentXp: number;
-  userData: {
-    surveyResponses: {
-      careerInterests: string;
-      workEnvironment: string;
-      problemSolving: string;
-      skillsDevelopment: string;
-      taskPreference: string;
-      learningPreference: string;
-      careerGoals: string;
-      careerMotivation: string;
-      adversityHandling: string;
-      workLifeBalance: string;
-    };
-    studyFieldChoice: string;
-    studyProgramChoice: string;
-    countryChoice: string;
-    cityChoice: string;
-    universityChoice: string;
-    applications: Application[];
-  };
+  userData: UserData;
   surveyAnswers: SurveyAnswers;
   studyFieldRecommendations: StudyFieldRecommendation[];
   studyProgramRecommendations: StudyProgramRecommendation[];

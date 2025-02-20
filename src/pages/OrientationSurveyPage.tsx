@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { getQuestionsAndAnswers } from '../utils';
 
@@ -32,16 +32,10 @@ import { DashboardScreen } from '@/screens/DashboardScreen';
 
 const screenTitles = new Map<number, string>([
   [1, 'The study fields that align the best with your interest and strengths'],
-  [
-    2,
-    'The study programmes that are the best fit for you within the chosen field',
-  ],
+  [2, 'The study programmes that are the best fit for you within the chosen field'],
   [3, 'The countires that offer the selected study programme'],
   [4, 'The cities within the selected country that offer the study programme'],
-  [
-    5,
-    'The universities within the selected city that offer the study programme',
-  ],
+  [5, 'The universities within the selected city that offer the study programme'],
   [6, 'The selected university that offers the study programme'],
 ]);
 
@@ -74,16 +68,16 @@ const OrientationSurveyPage: React.FC = () => {
 
   const handleRetry = () => {
     setSurveyAnswers({
-      careerInterests: '',
-      workEnvironment: '',
-      problemSolving: '',
-      skillsDevelopment: '',
-      taskPreference: '',
-      learningPreference: '',
-      careerGoals: '',
-      careerMotivation: '',
-      adversityHandling: '',
-      workLifeBalance: '',
+      '1': null,
+      '2': null,
+      '3': null,
+      '4': null,
+      '5': null,
+      '6': null,
+      '7': null,
+      '8': null,
+      '9': null,
+      '10': null,
     });
     setStudyFieldRecommendations([]);
     setOrientationSurveyIndex(0);
